@@ -94,8 +94,8 @@ window.__ModuleLoader__.load({
 .nexus-btn:hover { border-color: var(--dsw-alias-brand-primary); color: var(--dsw-alias-brand-primary); }
 .nexus-btn-ghost { background: transparent; }
 .nexus-navcard { display: flex; flex-direction: column; gap: 8px; background: var(--dsw-alias-bg-layer-1); border: 1px solid var(--dsw-alias-border-l1); border-radius: 12px; padding: 12px 14px; }
-.nexus-navcard-head { font-size: 12px; font-weight: 600; color: var(--dsw-alias-label-secondary); }
-.nexus-navrow { display: flex; gap: 8px; flex-wrap: wrap; }
+.nexus-navcard-head { font-size: 12px; font-weight: 600; color: var(--dsw-alias-label-secondary); text-align: center; }
+.nexus-navrow { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .nexus-navbtn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--dsw-alias-brand-primary); color: var(--dsw-alias-brand-primary); background: transparent; font-size: 12px; text-decoration: none; transition: background .15s, color .15s; }
 .nexus-navbtn:hover { background: var(--dsw-alias-brand-primary); color: var(--dsw-alias-bg-base); }
 .nexus-navarrow { font-size: 11px; opacity: .8; }
