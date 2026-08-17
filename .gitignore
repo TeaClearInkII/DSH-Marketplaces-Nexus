@@ -1,0 +1,40 @@
+# ── 环境与密钥（绝不上传）──────────────────────────────
+.env
+*.local
+
+# ── Python 缓存与虚拟环境 ──────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# ── 编辑器 / 系统文件 ─────────────────────────────────
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+
+# ── 巡检中间产物（不对外发布，见 data/README.md）──────
+data/candidates.json
+data/scan-report.json
+data/marketplaces.tmp.json
+data/exclusions.json
+data/pending.json
+data/changelog.jsonl
+data/pipeline.log
+data/.pipeline.lock
+data/stage_found.json
+data/stage_screen.json
+data/failures.json
+data/stage_progress.json
+# 自动备份（本地回滚用，不推送；版本管理由 git 承担）
+*.bak
+*.bak.*
+
+# ── 归档文件夹（工作草稿与历史文档，不提交）────────────
+archive/
+
+# ── 根目录旧草稿（已归档到 archive/，删除原文件后可移除）─
+DSH 万市枢纽.txt
+计划.md
+最终计划.md

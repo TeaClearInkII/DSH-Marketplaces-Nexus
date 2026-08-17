@@ -1,0 +1,24 @@
+{
+  "name": "dsh-marketplaces-nexus",
+  "version": "0.1.0",
+  "description": "DSH 万市枢纽市场面板：聚合展示 DSH 生态的插件市场、插件市场网站与精选库，支持搜索、筛选、排序、安装/卸载/停用/启用管理",
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "marketplace",
+    "cordis"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "cordis.patch.yml"
+    },
+    "client": "src/client.js"
+  }
+}

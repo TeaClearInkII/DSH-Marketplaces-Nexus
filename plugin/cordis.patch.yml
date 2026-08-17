@@ -1,0 +1,12 @@
+# DSH 万市枢纽 —— bundle 插件层
+#
+# 安装后由 `dsh plugin --profile web add dsh-marketplaces-nexus` 自动加入
+# profile 的 dsh.profile.bundles 列表，重启 DSH 后生效。
+#
+# 可选配置（用户可在自己的 cordis.patch.yml 覆盖）：
+#   - id: nexus-market-panel
+#     name: dsh-marketplaces-nexus
+#     config:
+#       dataUrl: https://raw.githubusercontent.com/TeaClearInkII/DSH-Marketplaces-Nexus/main/docs/marketplaces.json
+- id: nexus-market-panel
+  name: dsh-marketplaces-nexus

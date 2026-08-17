@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/your-org/dsh-marketplaces-nexus/main/schema/schema.json",
+  "title": "DSH Marketplaces Nexus Data Schema",
+  "description": "DSH 万市枢纽市场集数据模型（Schema v2.5.0）。条目可同时属于多个分类（categories）；验证等级统一由 tags 表达（v2.5.0 废弃 verification 字段）。",
+  "type": "object",
+  "required": ["repo", "file_meta", "summary", "markets"],
+  "additionalProperties": false,
+  "properties": {
+    "repo": {
+      "type": "object",
+      "description": "本枢纽仓库的基础信息",
+      "required": ["name", "display_name", "description", "url", "branch"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "description": "仓库名（小写短横线）" },
+        "display_name": { "type": "string", "description": "展示名" },
+        "description": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "hub_stars": { "type": "integer", "minimum": 0, "description": "枢纽仓库自身 Star 数" },
+        "stars_delta": { "type": ["integer", "null"], "minimum": 0, "description": "枢纽仓库新增 Star 数" },
+        "icon": { "type": ["string", "null"], "format": "uri", "description": "枢纽仓库图标 URL" },
+        "homepage": { "type": ["string", "null"], "format": "uri", "description": "枢纽官网地址" },
+        "docs": { "type": ["string", "null"], "format": "uri", "description": "文档地址" },
+        "maintainer": { "type": "string", "description": "维护者；未知时为空字符串" },
+        "tags": { "type": "array", "items": { "type": "string" }, "description": "本枢纽特点标签" },
+        "usage_tip": { "type": "string", "description": "本枢纽使用建议（标注）" },
+        "commit": {
+          "type": ["string", "null"],
+          "description": "生成该数据文件时的 Git commit；本地未建仓时为 null"
+        },
+        "branch": { "type": "string", "description": "默认分支" }
+      }
+    },
+    "file_meta": {
+      "type": "object",
+      "description": "该 JSON 文件的版本与时效信息",
+      "required": ["schema_version", "generated_at", "valid_until"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": { "const": "2.5.0" },
+        "generated_at": { "type": "string", "format": "date-time" },
+        "valid_until": { "type": "string", "format": "date-time", "description": "缓存有效期截止时间" }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "数据摘要，用于面板顶部统计展示。by_category 为分类出现次数，因条目可属多分类，其总和可能大于 total_markets。",
+      "required": ["total_markets", "by_category", "active_count", "inactive_count"],
+      "additionalProperties": false,
+      "properties": {
+        "total_markets": { "type": "integer", "minimum": 0 },
+        "by_category": {
+          "type": "object",
+          "description": "按分类统计；键为 categories 枚举",
+          "additionalProperties": false,
+          "properties": {
+            "plugin": { "type": "integer", "minimum": 0 },
+            "marketplace": { "type": "integer", "minimum": 0 },
+            "website": { "type": "integer", "minimum": 0 },
+            "library": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "total_github_stars": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "所有市场 GitHub Star 总和；未巡检时为 null"
+        },
+        "total_item_count": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "所有市场收录条目总数；未巡检时为 null"
+        },
+        "active_count": { "type": "integer", "minimum": 0 },
+        "inactive_count": { "type": "integer", "minimum": 0 },
+        "most_active": {
+          "type": ["string", "null"],
+          "description": "按最近更新热度推荐的 market id；未巡检时为 null"
+        },
+        "last_check": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "上次巡检时间；未巡检时为 null"
+        }
+      }
+    },
+    "markets": {
+      "type": "array",
+      "description": "市场列表（核心数据）",
+      "items": { "$ref": "#/$defs/market" }
+    }
+  },
+  "$defs": {
+    "market": {
+      "type": "object",
+      "required": [
+        "id", "name", "description", "homepage", "categories", "tags",
+        "status", "data_source", "verification", "first_added", "refresh_interval"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "唯一 ID，kebab-case" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "icon": {
+          "type": ["string", "null"],
+          "description": "图标 URL；可为 GitHub 头像或 favicon 服务，失败时前端回退 icon_fallback"
+        },
+        "icon_fallback": {
+          "type": ["string", "null"],
+          "description": "按主分类区分的默认图标文件名，由前端提供"
+        },
+        "homepage": { "type": "string", "format": "uri" },
+        "categories": {
+          "type": "array",
+          "description": "所属分类，按重要性排序（第一个为主分类）；一条目可属多类",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["plugin", "marketplace", "website", "library"]
+          }
+        },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "popularity": {
+          "type": "object",
+          "description": "人气指标；未巡检时字段为 null",
+          "required": ["github_stars", "stars_delta"],
+          "additionalProperties": false,
+          "properties": {
+            "github_stars": { "type": ["integer", "null"], "minimum": 0 },
+            "stars_delta": { "type": ["integer", "null"], "description": "新增 Star 数" },
+            "rank": { "type": ["integer", "null"], "minimum": 1, "description": "生态热度排名；未巡检时为 null" }
+          }
+        },
+        "item_count": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "该市场收录的条目数（插件或资源）；未巡检时为 null"
+        },
+        "item_count_delta": { "type": ["integer", "null"], "description": "新增条目数" },
+        "status": {
+          "type": "string",
+          "enum": ["active", "inactive", "deprecated"]
+        },
+        "last_plugin_update": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "该市场收录内容的最后更新时间；未巡检时为 null"
+        },
+        "last_check": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "上次巡检时间；未巡检时为 null"
+        },
+        "status_message": { "type": ["string", "null"], "description": "状态补充说明，如运行异常原因" },
+        "security_note": { "type": ["string", "null"], "description": "安全提示；存在风险时填写" },
+        "npm_package": { "type": ["string", "null"], "description": "npm 包名；用于安装与版本检查" },
+        "environment": { "type": ["string", "null"], "description": "安装环境要求，如系统 / Node / DSH 版本" },
+        "data_source": {
+          "type": "object",
+          "required": ["type", "identifier"],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["github_repo", "web_api", "website"]
+            },
+            "identifier": { "type": "string", "description": "仓库全名 owner/name 或 URL" },
+            "last_sync": { "type": ["string", "null"], "format": "date-time" }
+          }
+        },
+        "verification": {
+          "type": ["object", "null"],
+          "description": "（已废弃，仅旧数据可能残留；迁移后删除）验证等级已并入 tags，新数据不再写入"
+        },
+        "maintainer": { "type": "string", "description": "维护者；未知时为空字符串" },
+        "first_added": { "type": "string", "format": "date-time", "description": "首次收录时间" },
+        "refresh_interval": {
+          "type": "string",
+          "enum": ["hourly", "daily", "weekly"],
+          "description": "建议巡检频率"
+        },
+        "usage_tip": { "type": "string", "description": "使用建议" },
+        "upstream_sources": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "聚合上游源；供聚合类市场使用"
+        },
+        "ai_hint": {
+          "type": ["object", "null"],
+          "description": "AI 巡检给出的参考信息（含 ai_extract / item_count_estimate），不进入展示主数据"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "file_meta": {
+    "schema_version": "2.5.0",
+    "generated_at": "2026-08-17T00:32:10Z",
+    "valid_until": null
+  },
+  "summary": {
+    "total_markets": 53,
+    "by_category": {
+      "plugin": 28,
+      "marketplace": 27,
+      "website": 26,
+      "library": 2
+    },
+    "total_github_stars": null,
+    "total_item_count": null,
+    "active_count": 53,
+    "inactive_count": 0,
+    "most_active": "m-0010",
+    "last_check": "2026-08-17T00:32:10Z"
+  }
+}

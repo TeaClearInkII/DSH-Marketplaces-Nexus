@@ -1,0 +1,57 @@
+name: 新增市场
+description: 推荐一个新的 DSH 插件市场、导航站或精选库
+title: "[新增市场] "
+labels: ["new-market", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢推荐！请尽量完整地填写以下信息。
+        注意：本枢纽只收录「市场」级资源（插件市场/导航站/聚合库/精选库），不收录单个插件。
+  - type: input
+    id: name
+    attributes:
+      label: 名称
+      description: 市场名称
+      placeholder: 例：WhaleHub 聚合市场
+    validations:
+      required: true
+  - type: input
+    id: homepage
+    attributes:
+      label: 链接
+      description: GitHub 仓库地址或网站 URL
+      placeholder: https://github.com/owner/repo 或 https://example.com
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: 类型
+      description: 该资源的类型
+      options:
+        - registry（DSH 内插件市场）
+        - catalog（导航站/精选库）
+        - aggregator（多源聚合）
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 描述
+      description: 这个市场是做什么的？有什么特色？（一两句话即可）
+    validations:
+      required: true
+  - type: textarea
+    id: tags
+    attributes:
+      label: 标签
+      description: 逗号分隔的标签，例：精选, 一键安装, 中文
+      placeholder: 精选, 一键安装
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: 确认
+      options:
+        - label: 我确认该资源与 DSH 插件生态直接相关，且不是单个插件
+          required: true
