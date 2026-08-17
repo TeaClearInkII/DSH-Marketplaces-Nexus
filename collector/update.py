@@ -100,6 +100,52 @@ def github_topic_total():
         return None
 
 
+def github_latest_commit(identifier):
+    """最新提交 sha（全量）。失败返回 None（保留旧值，不覆盖）。"""
+    url = "https://api.github.com/repos/%s/commits?per_page=1" % urllib.parse.quote(identifier, safe="/")
+    try:
+        data = json.loads(http_get(url, gh_headers()))
+        if isinstance(data, list) and data and data[0].get("sha"):
+            return data[0]["sha"]
+    except Exception:
+        return None
+    return None
+
+
+def update_repo_block(doc):
+    """更新顶层 repo 块的自身状态（hub_stars / stars_delta / commit）。
+
+    数据诚实：任何一步失败都保留旧值（不覆盖为 null / 不编造）。
+    """
+    repo = doc.get("repo") or {}
+    if not repo:
+        return doc
+    m = re.match(r"https?://github\.com/([\w\-\.]+)/([\w\-\.]+)", repo.get("url") or "")
+    if not m:
+        print("[warn] repo.url 无法解析 owner/repo，跳过 repo 块更新")
+        return doc
+    ident = "%s/%s" % (m.group(1), m.group(2))
+    try:
+        info = github_repo(ident)
+    except Exception as e:
+        print("[warn] repo 块更新失败（%s）：%s" % (ident, e))
+        return doc
+    old_stars = repo.get("hub_stars")
+    stars = info.get("stargazers_count")
+    if isinstance(stars, int):
+        repo["hub_stars"] = stars
+        repo["stars_delta"] = (stars - old_stars) if isinstance(old_stars, int) else None
+    commit = github_latest_commit(ident)
+    if commit:
+        repo["commit"] = commit
+    print("[ok] repo 块更新：%s ★%s commit=%s" % (
+        ident,
+        repo.get("hub_stars"),
+        (repo.get("commit") or "")[:7] or "N/A",
+    ))
+    return doc
+
+
 def readme_link_count(identifier):
     """统计 README 中的 Markdown 链接列表项数量（估算收录条目数）。"""
     text = github_readme(identifier)
@@ -175,6 +221,9 @@ def main(out_path=None):
     doc = json.load(open(target, encoding="utf-8"))
     markets = doc.get("markets", [])
     report = {"generated_at": now_iso(), "updates": [], "errors": [], "manual_review": []}
+
+    # 顶层 repo 块（本仓库自身状态：hub_stars / commit）——先前版本从未更新
+    update_repo_block(doc)
 
     # 生态规模参考
     total = github_topic_total()
