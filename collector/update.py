@@ -297,6 +297,7 @@ def main(out_path=None):
                   if ((x.get("data_source") or {}).get("identifier") or "").lower() == ident), None)
         if not m:
             continue
+        mid = m.get("id")
         for url in urls:
             try:
                 n = count_json_list(url)

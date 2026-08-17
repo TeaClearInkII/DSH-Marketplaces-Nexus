@@ -5,18 +5,18 @@
     "valid_until": null
   },
   "summary": {
-    "total_markets": 54,
+    "total_markets": 52,
     "by_category": {
-      "plugin": 24,
-      "marketplace": 31,
+      "plugin": 26,
+      "marketplace": 25,
       "website": 30,
-      "library": 2
+      "library": 4
     },
     "total_github_stars": null,
     "total_item_count": null,
-    "active_count": 54,
+    "active_count": 52,
     "inactive_count": 0,
     "most_active": "m-0010",
-    "last_check": "2026-08-17T11:28:29Z"
+    "last_check": "2026-08-17T15:02:46Z"
   }
 }

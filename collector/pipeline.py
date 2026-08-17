@@ -211,6 +211,13 @@ def norm_identifier(ident):
         if s.startswith(p):
             s = s[len(p):]
     s = s.rstrip("/").split("?")[0].split("#")[0]
+    # 剥离子目录/文件路径（/tree/<branch>/...、/blob/<branch>/...），归一化为仓库根
+    # （否则子目录伪仓库会绕过排除名单，如 vladimir-human/ru-marketplace-mcp/tree/main/dsh）
+    for mark in ("/tree/", "/blob/"):
+        idx = s.find(mark)
+        if idx != -1:
+            s = s[:idx]
+            break
     return s
 
 
@@ -730,6 +737,8 @@ def refine_markets(limit=None, readme_budget=None):
                 continue  # 防震荡：与上次修正值相同则跳过
             if field == "item_count" and not isinstance(new_val, int):
                 continue
+            if field == "description" and any(c.isdigit() for c in str(new_val)):
+                continue  # 规范：简介禁止数字统计，数字只进 item_count
             if field == "npm_package":
                 if not npm_exists(new_val):
                     continue

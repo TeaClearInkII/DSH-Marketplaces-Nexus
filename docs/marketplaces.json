@@ -25,19 +25,19 @@
     "valid_until": null
   },
   "summary": {
-    "total_markets": 54,
+    "total_markets": 52,
     "by_category": {
-      "plugin": 24,
-      "marketplace": 31,
+      "plugin": 26,
+      "marketplace": 25,
       "website": 30,
-      "library": 2
+      "library": 4
     },
     "total_github_stars": null,
     "total_item_count": null,
-    "active_count": 54,
+    "active_count": 52,
     "inactive_count": 0,
     "most_active": "m-0010",
-    "last_check": "2026-08-17T11:28:29Z"
+    "last_check": "2026-08-17T15:02:46Z"
   },
   "markets": [
     {
@@ -1589,7 +1589,7 @@
     {
       "id": "m-0027",
       "name": "Awesome DSH Plugins 中文精选",
-      "description": "社区维护的 DeepSeek Harness 插件精选目录，收录 300+ 插件，覆盖 14 个分类，提供安装命令与星标，支持中英双语浏览。",
+      "description": "社区维护的 DeepSeek Harness 插件精选目录，覆盖多分类与中英双语，提供安装命令与星标信息。",
       "icon": "https://github.com/kejixiaoliang.png",
       "icon_fallback": "default-library.svg",
       "homepage": "https://github.com/kejixiaoliang/awesome-dsh-plugins",
@@ -1633,7 +1633,7 @@
       "security_note": null,
       "ai_hint": {
         "ai_refine": {
-          "description": "社区维护的 DeepSeek Harness 插件精选目录，收录 300+ 插件，覆盖 14 个分类，提供安装命令与星标，支持中英双语浏览。",
+          "description": "社区维护的 DeepSeek Harness 插件精选目录，覆盖多分类与中英双语，提供安装命令与星标信息。",
           "categories": [
             "website"
           ],
@@ -1808,7 +1808,7 @@
     {
       "id": "m-0033",
       "name": "dsh-plugins",
-      "description": "独立维护的 DeepSeek Harness 插件目录，收录 150 个插件，覆盖交互体验、工具能力、自动化代理与开发生态四大领域，提供中英双语浏览。",
+      "description": "独立维护的 DeepSeek Harness 插件目录，覆盖交互体验、工具能力、自动化代理与开发生态，提供中英双语浏览。",
       "icon": "https://avatars.githubusercontent.com/u/13587279?v=4",
       "icon_fallback": null,
       "homepage": "https://github.com/HackSing/dsh-plugins",
@@ -2825,15 +2825,18 @@
     {
       "id": "m-0060",
       "name": "awesome-deepseek-harness",
-      "description": "Curated guide to DeepSeek Harness (dsh) and its best community plugins",
-      "icon": null,
-      "icon_fallback": null,
+      "description": "DeepSeek Harness 精选指南：收录最佳社区插件，提供从入门到进阶的使用指引与生态资源导航。",
+      "icon": "https://github.com/anil-matcha.png",
+      "icon_fallback": "default-library.svg",
       "homepage": "https://github.com/Anil-matcha/awesome-deepseek-harness",
       "categories": [
-        "marketplace"
+        "library"
       ],
       "tags": [
-        "自动收录"
+        "精选指南",
+        "DeepSeek Harness",
+        "社区插件",
+        "awesome"
       ],
       "popularity": {
         "github_stars": 922,
@@ -2852,7 +2855,7 @@
       "maintainer": "@anil-matcha",
       "first_added": "2026-08-17T19:06:05+08:00",
       "refresh_interval": "daily",
-      "usage_tip": null,
+      "usage_tip": "浏览精选指南快速上手 DSH，并按需选用其推荐的社区插件。",
       "upstream_sources": [],
       "npm_package": null,
       "environment": null,
@@ -2861,20 +2864,28 @@
       "last_check": "2026-08-17T19:06:05+08:00",
       "ai_hint": {
         "pipeline": "自动收录（AI 初筛 market ≥0.85）"
+      },
+      "verification": {
+        "level": "auto_scan",
+        "process": "auto_scan",
+        "details": "来源：自动收录（AI 初筛 market ≥0.85）"
       }
     },
     {
       "id": "m-0061",
       "name": "awesome-dsh-plugin",
-      "description": "A curated list of plugins for DeepSeek Harness (dsh) — 精选 DeepSeek Harness 插件列表",
-      "icon": null,
-      "icon_fallback": null,
+      "description": "DeepSeek Harness 社区精选插件列表，收录常用插件并提供快速浏览入口。",
+      "icon": "https://github.com/billliao.png",
+      "icon_fallback": "default-library.svg",
       "homepage": "https://github.com/billLiao/awesome-dsh-plugin",
       "categories": [
-        "marketplace"
+        "library"
       ],
       "tags": [
-        "自动收录"
+        "精选列表",
+        "DSH",
+        "插件",
+        "awesome"
       ],
       "popularity": {
         "github_stars": 11,
@@ -2893,7 +2904,7 @@
       "maintainer": "@billliao",
       "first_added": "2026-08-17T19:06:05+08:00",
       "refresh_interval": "daily",
-      "usage_tip": null,
+      "usage_tip": "按列表浏览精选插件，复制安装命令即可安装。",
       "upstream_sources": [],
       "npm_package": null,
       "environment": null,
@@ -2902,20 +2913,28 @@
       "last_check": "2026-08-17T19:06:05+08:00",
       "ai_hint": {
         "pipeline": "自动收录（AI 初筛 market ≥0.85）"
+      },
+      "verification": {
+        "level": "auto_scan",
+        "process": "auto_scan",
+        "details": "来源：自动收录（AI 初筛 market ≥0.85）"
       }
     },
     {
       "id": "m-0062",
       "name": "dsh-plugin-recommend",
-      "description": "Plugin recommender for DeepSeek Harness: search and rank DSH plugins from an embedded 1100+ entry marketplace catalog by need, category and tags, with live refresh.",
-      "icon": null,
-      "icon_fallback": null,
+      "description": "插件推荐器：从内置的市场目录中按需求、分类与标签检索并排序 DSH 插件，支持实时刷新。",
+      "icon": "https://github.com/863683348.png",
+      "icon_fallback": "default-plugin.svg",
       "homepage": "https://github.com/863683348/dsh-plugin-recommend",
       "categories": [
-        "marketplace"
+        "plugin"
       ],
       "tags": [
-        "自动收录"
+        "插件推荐",
+        "市场目录",
+        "搜索",
+        "排序"
       ],
       "popularity": {
         "github_stars": 0,
@@ -2934,7 +2953,7 @@
       "maintainer": "@863683348",
       "first_added": "2026-08-17T19:06:05+08:00",
       "refresh_interval": "daily",
-      "usage_tip": null,
+      "usage_tip": "安装后向代理描述需求，按推荐结果挑选并安装插件。",
       "upstream_sources": [],
       "npm_package": null,
       "environment": null,
@@ -2943,102 +2962,28 @@
       "last_check": "2026-08-17T19:06:05+08:00",
       "ai_hint": {
         "pipeline": "自动收录（AI 初筛 market ≥0.85）"
-      }
-    },
-    {
-      "id": "m-0063",
-      "name": "dsh",
-      "description": "",
-      "icon": null,
-      "icon_fallback": null,
-      "homepage": "https://github.com/",
-      "categories": [
-        "marketplace"
-      ],
-      "tags": [
-        "自动收录"
-      ],
-      "popularity": {
-        "github_stars": null,
-        "stars_delta": null,
-        "rank": null
       },
-      "item_count": null,
-      "item_count_delta": null,
-      "status": "active",
-      "last_plugin_update": null,
-      "data_source": {
-        "type": "github_repo",
-        "identifier": "vladimir-human/ru-marketplace-mcp/tree/main/dsh",
-        "last_sync": "2026-08-17T19:06:05+08:00"
-      },
-      "maintainer": "@vladimir-human",
-      "first_added": "2026-08-17T19:06:05+08:00",
-      "refresh_interval": "daily",
-      "usage_tip": null,
-      "upstream_sources": [],
-      "npm_package": null,
-      "environment": null,
-      "status_message": null,
-      "security_note": null,
-      "last_check": "2026-08-17T19:06:05+08:00",
-      "ai_hint": {
-        "pipeline": "自动收录（AI 初筛 market ≥0.85）"
-      }
-    },
-    {
-      "id": "m-0064",
-      "name": "dsh-trend-radar",
-      "description": "",
-      "icon": null,
-      "icon_fallback": null,
-      "homepage": "https://github.com/",
-      "categories": [
-        "marketplace"
-      ],
-      "tags": [
-        "自动收录"
-      ],
-      "popularity": {
-        "github_stars": 0,
-        "stars_delta": 0,
-        "rank": null
-      },
-      "item_count": null,
-      "item_count_delta": null,
-      "status": "active",
-      "last_plugin_update": "2026-08-17T04:32:22Z",
-      "data_source": {
-        "type": "github_repo",
-        "identifier": "863683348/dsh-trend-radar",
-        "last_sync": "2026-08-17T11:27:54Z"
-      },
-      "maintainer": "@863683348",
-      "first_added": "2026-08-17T19:06:05+08:00",
-      "refresh_interval": "daily",
-      "usage_tip": null,
-      "upstream_sources": [],
-      "npm_package": null,
-      "environment": null,
-      "status_message": null,
-      "security_note": null,
-      "last_check": "2026-08-17T19:06:05+08:00",
-      "ai_hint": {
-        "pipeline": "自动收录（AI 初筛 market ≥0.85）"
+      "verification": {
+        "level": "auto_scan",
+        "process": "auto_scan",
+        "details": "来源：自动收录（AI 初筛 market ≥0.85）"
       }
     },
     {
       "id": "m-0065",
       "name": "dsh-need-finder",
-      "description": "",
-      "icon": null,
-      "icon_fallback": null,
-      "homepage": "https://github.com/",
+      "description": "需求驱动的 DSH 插件发现插件：将自然语言需求匹配到精选插件目录，给出推荐理由与安装命令。",
+      "icon": "https://github.com/863683348.png",
+      "icon_fallback": "default-plugin.svg",
+      "homepage": "https://github.com/863683348/dsh-need-finder",
       "categories": [
-        "marketplace"
+        "plugin"
       ],
       "tags": [
-        "自动收录"
+        "插件发现",
+        "需求匹配",
+        "推荐",
+        "安装"
       ],
       "popularity": {
         "github_stars": 0,
@@ -3057,7 +3002,7 @@
       "maintainer": "@863683348",
       "first_added": "2026-08-17T19:06:05+08:00",
       "refresh_interval": "daily",
-      "usage_tip": null,
+      "usage_tip": "向代理描述需求，由插件匹配最合适的插件并给出安装命令。",
       "upstream_sources": [],
       "npm_package": null,
       "environment": null,
@@ -3066,6 +3011,11 @@
       "last_check": "2026-08-17T19:06:05+08:00",
       "ai_hint": {
         "pipeline": "自动收录（AI 初筛 market ≥0.85）"
+      },
+      "verification": {
+        "level": "auto_scan",
+        "process": "auto_scan",
+        "details": "来源：自动收录（AI 初筛 market ≥0.85）"
       }
     }
   ]
