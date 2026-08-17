@@ -51,10 +51,13 @@ UA = "dsh-marketplaces-nexus-pipeline/1.0"
 PLUGIN_SAFETY = ["marketplace", "registry", "directory", "awesome-list", "plugin hub", "插件市场", "精选库", "导航", "market"]
 AI_SCREEN_SYSTEM = (
     "你是 DSH 插件生态分类助手。判断仓库是「插件市场/市场网站/精选库」（market）、"
-    "「单插件/单工具」（plugin）、还是「不确定」（maybe）。\n"
+    "「单功能插件」（plugin）、还是「不确定」（maybe）。\n"
     "规则：\n"
-    "- market：聚合/收录多个插件或资源（marketplace、registry、目录、精选库、导航站、网站）\n"
-    "- plugin：单功能插件/工具/skill/workflow（主题、CLI 工具、单插件、桌面应用、教程等）\n"
+    "- market：聚合/收录/索引/发现多个插件或资源——插件市场、商店、注册表、目录、精选库、导航站、网站、排行站都算。\n"
+    "  判断依据是 README 内容（浏览/搜索/安装/列举多个插件的机制），不要仅凭名字里的 market/hub/radar 等词下结论。\n"
+    "- plugin：单个功能插件/工具/skill/workflow（终端面板、登录、预览、桥接、监控、量化、GitHub 集成、IM 网关、主题、桌面应用等）。\n"
+    "  例外：该插件的能力就是「发现/搜索/浏览其他插件」（如 find-dsh-plugins、dsh-find-plugin），算 market。\n"
+    "- 与 DeepSeek Harness 生态无关的项目（电商、金融、生物信息等）→ plugin（明确说明与 DSH 无关）。\n"
     "- 仅凭信息无法判断 → maybe\n"
     "只输出 JSON：{\"classification\": \"market|maybe|plugin\", \"confidence\": 0.0-1.0, \"reason\": \"一句话原因\"}"
 )
@@ -414,8 +417,9 @@ def fetch_readme(ident, budget):
             import base64
             text = base64.b64decode(data["content"]).decode("utf-8", errors="replace")
             return re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)
-    except Exception:
-        return None
+        log("[warn] %s README 无 content（encoding=%s），AI 将仅凭名称+描述判断" % (ident, data.get("encoding")))
+    except Exception as e:
+        log("[warn] %s README 拉取失败：%s（AI 将仅凭名称+描述判断，判定质量下降）" % (ident, e))
     return None
 
 
@@ -457,10 +461,12 @@ def screen_all(candidates, readme_budget):
             market_list.append((ident, meta))
             log("[screen] %s → market（%.2f）" % (ident, conf))
         elif cls == "plugin" and conf >= 0.85:
-            # 脚本特征兜底：README 含市场特征则不当 plugin
-            if readme and any(k in readme.lower() for k in PLUGIN_SAFETY):
+            # 脚本特征兜底：仅在 README 拉取失败（AI 仅凭名称判断）时，
+            # 若名称/描述含市场特征才按 market 处理；有 README 时信任 AI 判断
+            if not readme and any(k in ("%s %s" % (ident, meta.get("description") or "")).lower()
+                                  for k in PLUGIN_SAFETY):
                 market_list.append((ident, meta))
-                log("[screen] %s → plugin 但 README 含市场特征，按 market 处理（%.2f）" % (ident, conf))
+                log("[screen] %s → plugin 但 README 缺失且名称含市场特征，按 market 处理（%.2f）" % (ident, conf))
             else:
                 plugin_list.append((ident, meta))
                 log("[screen] %s → plugin（%.2f）" % (ident, conf))
@@ -621,17 +627,20 @@ def store_pending(maybe_list):
 
 
 def review_pending(readme_budget):
-    """pending 池再次 AI 判定：market 高置信 → 收录；attempts 递增，超过 3 次移出。"""
+    """pending 池再次 AI 判定：market 高置信 → 收录；attempts 递增，超过 3 次移出。
+    已收录（正式数据）或已排除（排除名单）的项直接移出 pending，不再重复评估。"""
     pend = load_json(PENDING, {}) or {}
     items = pend.get("items") or []
     doc = load_json(config.MARKETPLACES_FILE)
     markets = doc.get("markets", []) if doc else []
     existing = {norm_identifier((m.get("data_source") or {}).get("identifier")): m for m in markets}
+    excl_ids = {e.get("identifier") for e in (load_json(EXCLUSIONS, {}) or {}).get("items", [])}
     n = 0
     keep, to_ingest, dropped = [], [], []
     for p in items:
         ident = p.get("identifier")
-        if ident in existing:
+        if ident in existing or ident in excl_ids:
+            log("[pending] %s 已收录或已排除，移出待复核池" % ident)
             continue
         if p.get("attempts", 0) >= 3:
             dropped.append(p)
@@ -729,6 +738,8 @@ def refine_markets(limit=None, readme_budget=None):
                 continue
             m[field] = new_val
             prev[field] = new_val
+            if field == "item_count":
+                hint["item_count_estimate"] = "AI 修正（README/页面统计，建议人工复核）"
             changed_fields.append(field)
             changelog({"action": "refine", "id": m.get("id"), "field": field,
                        "old": old, "new": new_val})

@@ -1,22 +1,22 @@
 {
   "file_meta": {
     "schema_version": "2.5.0",
-    "generated_at": "2026-08-17T09:30:39Z",
+    "generated_at": "2026-08-17T11:10:25Z",
     "valid_until": null
   },
   "summary": {
-    "total_markets": 53,
+    "total_markets": 54,
     "by_category": {
-      "plugin": 28,
-      "marketplace": 27,
-      "website": 26,
+      "plugin": 24,
+      "marketplace": 31,
+      "website": 30,
       "library": 2
     },
     "total_github_stars": null,
     "total_item_count": null,
-    "active_count": 53,
+    "active_count": 54,
     "inactive_count": 0,
     "most_active": "m-0010",
-    "last_check": "2026-08-17T09:30:39Z"
+    "last_check": "2026-08-17T11:10:25Z"
   }
 }

@@ -73,6 +73,9 @@ KEYWORDS_STRONG_EXC = [
     "sidebar", "memory", "skin", "ads", "game", "toy", "resume",
     "desktop", "browser-extension", "companion", "content-discovery",
     "agent-os", "playground", "sandbox", "k8s", "kubernetes",
+    # 单功能插件强特征（名称/描述/话题命中即剔除）
+    "login", "preview", "terminal", "bridge", "provider",
+    "guard", "quant", "background-plugin", "sticky-disclosure",
 ]
 # 弱排除词：压制弱市场词（不压制强市场词，避免误伤真市场）
 KEYWORDS_WEAK_EXC = [

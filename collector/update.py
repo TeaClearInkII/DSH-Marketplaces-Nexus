@@ -34,11 +34,12 @@ from merge import recompute_summary  # noqa: E402
 UA = "dsh-marketplaces-nexus-updater/0.1"
 SCHEMA_VERSION = "2.5.0"
 
-# item_count 自动获取：market id → 数据源 URL 列表（依次探测，取第一个成功）
+# item_count 自动获取：data_source.identifier（owner/name 全名，稳定标识）→ 数据源 URL 列表
+# （依次探测，取第一个成功；旧实现用迁移前的 kebab-case id 作 key，迁移后失效，勿回退）
 ITEM_COUNT_SOURCES = {
-    "awesome-dsh-plugin": [config.AWESOME_JSON_URL],
-    "dsh-market": [config.AWESOME_JSON_URL],  # 同一精选库数据源
-    "whalehub-dsh": [
+    "awesome-dsh-plugin/awesome-dsh-plugin": [config.AWESOME_JSON_URL],
+    "dsh-market/dsh-market": [config.AWESOME_JSON_URL],  # 同一精选库数据源
+    "vvlife/whalehub-dsh": [
         "https://vvlife.github.io/whalehub-dsh/data/plugins.json",
         "https://vvlife.github.io/whalehub-dsh/plugins.json",
         "https://vvlife.github.io/whalehub-dsh/data.json",
@@ -109,17 +110,22 @@ def readme_link_count(identifier):
     return len(links)
 
 
-def set_item_count(m, n, source_note):
-    """写入 item_count（自动源统一入口，保护手动值）。
+def set_item_count(m, n, source_note, high_confidence=False):
+    """写入 item_count（自动源统一入口）。
 
-    - 旧值存在且无 item_count_estimate 标记 → 视为手动维护，不覆盖，返回 False
-    - 否则写入并打估算标记，返回 True
+    - 手动值（无 item_count_estimate 标记、且非 ai_refine 写入的旧值）：
+      仅被高可信源覆盖（结构化 JSON / 网站明确统计，high_confidence=True）；
+      README 链接估算等低可信源不覆盖，返回 False
+    - 自动值（估算标记值 / AI 修正（ai_refine）写入的值）：任何源均可写入，并打估算标记
     """
     if not isinstance(n, int) or n < 0:
         return False
     old = m.get("item_count")
     hint = m.get("ai_hint") or {}
-    if isinstance(old, int) and not hint.get("item_count_estimate"):
+    ai_refine = hint.get("ai_refine") if isinstance(hint.get("ai_refine"), dict) else {}
+    ai_written = isinstance(old, int) and ai_refine.get("item_count") == old
+    is_manual = isinstance(old, int) and not hint.get("item_count_estimate") and not ai_written
+    if is_manual and not high_confidence:
         return False
     m["item_count"] = n
     m["item_count_delta"] = (n - old) if isinstance(old, int) else None
@@ -218,12 +224,14 @@ def main(out_path=None):
         if (m.get("categories") or []) and any(c in README_COUNT_TYPES for c in m["categories"]):
             n = readme_link_count(ident)
             entry["readme_link_count"] = n
-            if n:
+            if n and n >= 2:
                 if set_item_count(m, n, "README 链接数估算，建议人工复核"):
                     report["updates"].append({"id": mid, "item_count_estimate": n})
                     print("[ok] %s README 链接数（估算条目）：%d" % (mid, n))
                 else:
                     print("[keep] %s item_count 为手动值（%s），README 估算 %d 未覆盖" % (mid, m.get("item_count"), n))
+            elif n == 1:
+                print("[skip] %s README 链接计数为 %d，估算不可信，跳过" % (mid, n))
         report["manual_review"].append(entry)
 
         changes = []
@@ -235,14 +243,15 @@ def main(out_path=None):
         time.sleep(config.REQUEST_INTERVAL)
 
     # item_count：结构化数据源
-    for mid, urls in ITEM_COUNT_SOURCES.items():
-        m = next((x for x in markets if x.get("id") == mid), None)
+    for ident, urls in ITEM_COUNT_SOURCES.items():
+        m = next((x for x in markets
+                  if ((x.get("data_source") or {}).get("identifier") or "").lower() == ident), None)
         if not m:
             continue
         for url in urls:
             try:
                 n = count_json_list(url)
-                if set_item_count(m, n, "结构化数据源（%s）" % url):
+                if set_item_count(m, n, "结构化数据源（%s）" % url, high_confidence=True):
                     print("[ok] %s item_count → %d（%s）" % (mid, n, url))
                     report["updates"].append({"id": mid, "item_count": n, "source": url})
                 else:
@@ -265,7 +274,7 @@ def main(out_path=None):
         for path in config.WEBSITE_STATS_PATHS:
             n = website_item_count(base + path)
             if n:
-                if set_item_count(m, n, "网站页面统计提取，建议人工复核"):
+                if set_item_count(m, n, "网站页面统计提取，建议人工复核", high_confidence=True):
                     report["updates"].append({"id": m.get("id"), "item_count": n, "source": base + path, "method": "html"})
                     print("[ok] %s item_count → %d（HTML 统计：%s）" % (m.get("id"), n, base + path))
                 else:
