@@ -1,16 +1,26 @@
 /**
- * DSH 万市枢纽 —— Client 侧插件
+ * DSH 万市枢纽 —— Client 侧插件（npm 发布版，标准 Cordis API）
  *
  * 在 DSH Web 设置页注册「万市枢纽」页面（settings.section）：
- * 本仓库信息卡 + 更多折叠（生态导航/学习开发/本机环境）+ 筛选/搜索/排序
- * + 市场卡片（分类/验证/状态/地址/标签/简介/建议/趋势/详情/网站仓库入口
- *   + 安装/卸载/停用/启用 + 命令复制）
+ * 数据直接 fetch 远程 raw（raw.githubusercontent.com，CORS 允许），
+ * 不依赖 host RPC / 动态插件 API，保证任何环境可加载。
  *
- * 与 Host 的通信走 Package-private RPC（host.call('nexus.*')），
- * Host 端实现见 src/index.js。
+ * 安装管理降级为「显示安装命令 + 复制」（本机安装请用 dsh plugin 命令）。
+ *
+ * bundle 格式与官方客户端插件一致：window.__ModuleLoader__.load(...)，
+ * id 必须是包名（client-modules 以包名作为 graph row id）。
  */
-module.exports = {
-  apply(ctx) {
+
+window.__ModuleLoader__.load({
+  id: 'dsh-marketplaces-nexus',
+  factory: (require) => {
+    var module = { exports: {} }
+    var exports = module.exports
+    Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' })
+    const React = require('react')
+    const name = 'nexus-market-panel'
+    const inject = ['slots']
+    function apply(ctx) {
     const CATEGORY_META = {
       plugin: { label: '插件', color: '#3d7bff' },
       marketplace: { label: '插件市场', color: '#e0603f' },
@@ -37,6 +47,10 @@ module.exports = {
       { label: '插件目录 (topic)', url: 'https://github.com/topics/dsh-plugin' },
       { label: 'GitHub 搜索', url: 'https://github.com/search?q=dsh-plugin&type=repositories' },
     ]
+
+    // 数据源：远程 raw（可被插件 config 的 dataUrl 覆盖）
+    const REMOTE_DATA_URL =
+      'https://raw.githubusercontent.com/TeaClearInkII/DSH-Marketplaces-Nexus/main/docs/marketplaces.json'
 
     function shortDate(iso) {
       return iso ? String(iso).slice(0, 10) : '未知'
@@ -74,41 +88,17 @@ module.exports = {
       return Math.floor(days / 365) + ' 年'
     }
 
-    function isSandboxError(raw) {
-      const s = String(raw || '')
-      return s.indexOf('sandbox') !== -1 || s.indexOf('CreateProcessAsUserW') !== -1 || s.indexOf('bubblewrap') !== -1 || s.indexOf('windows-acl') !== -1 || s.indexOf('Landlock') !== -1 || s.indexOf('sandbox-exec') !== -1
-    }
-
-    function friendlyError(raw) {
-      const s = String(raw || '')
-      if (isSandboxError(s)) {
-        return '本机沙箱环境不可用（权限不足）：自动安装/卸载暂不可用。建议以管理员身份运行 DSH；或使用「复制命令」在终端手动操作；若信任当前环境，可在设置中切换沙箱模式为 danger-full-access（会降低命令隔离）。停用/启用不受影响。'
-      }
-      return s
-    }
-
     const CSS = `
 .nexus-root { display: flex; flex-direction: column; gap: 14px; padding: 4px 2px 24px; }
 .nexus-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 8px; border: 1px solid var(--dsw-alias-border-l2); background: var(--dsw-alias-bg-layer-2); color: var(--dsw-alias-label-primary); font-size: 12px; cursor: pointer; text-decoration: none; }
 .nexus-btn:hover { border-color: var(--dsw-alias-brand-primary); color: var(--dsw-alias-brand-primary); }
 .nexus-btn-ghost { background: transparent; }
-.nexus-btn-danger { border-color: var(--dsw-alias-state-error-primary); color: var(--dsw-alias-state-error-primary); background: transparent; }
-.nexus-btn-danger:hover { background: var(--dsw-alias-state-error-primary); color: var(--dsw-alias-bg-base); border-color: var(--dsw-alias-state-error-primary); }
 .nexus-navcard { display: flex; flex-direction: column; gap: 8px; background: var(--dsw-alias-bg-layer-1); border: 1px solid var(--dsw-alias-border-l1); border-radius: 12px; padding: 12px 14px; }
 .nexus-navcard-head { font-size: 12px; font-weight: 600; color: var(--dsw-alias-label-secondary); }
 .nexus-navrow { display: flex; gap: 8px; flex-wrap: wrap; }
 .nexus-navbtn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--dsw-alias-brand-primary); color: var(--dsw-alias-brand-primary); background: transparent; font-size: 12px; text-decoration: none; transition: background .15s, color .15s; }
 .nexus-navbtn:hover { background: var(--dsw-alias-brand-primary); color: var(--dsw-alias-bg-base); }
 .nexus-navarrow { font-size: 11px; opacity: .8; }
-.nexus-more-card { padding: 0; }
-.nexus-more-toggle { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 12px 14px; border: none; background: transparent; color: var(--dsw-alias-label-primary); font-size: 12px; font-weight: 600; cursor: pointer; border-radius: 12px; }
-.nexus-more-toggle:hover { color: var(--dsw-alias-brand-primary); }
-.nexus-more-caret { color: var(--dsw-alias-label-secondary); font-size: 11px; }
-.nexus-more-body { display: flex; flex-direction: column; gap: 10px; padding: 0 14px 12px; border-top: 1px solid var(--dsw-alias-border-l1); padding-top: 10px; }
-.nexus-env { display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--dsw-alias-label-secondary); }
-.nexus-env-row { display: flex; gap: 6px; line-height: 1.6; }
-.nexus-env-label { color: var(--dsw-alias-label-primary); flex: none; min-width: 64px; }
-.nexus-env-tip { display: flex; gap: 6px; line-height: 1.6; font-size: 11px; color: var(--dsw-alias-state-warn-primary); background: var(--dsw-alias-bg-layer-2); border: 1px dashed var(--dsw-alias-border-l2); border-radius: 8px; padding: 8px 10px; }
 .nexus-toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .nexus-chip { padding: 5px 12px; border-radius: 999px; border: 1px solid var(--dsw-alias-border-l2); background: transparent; color: var(--dsw-alias-label-secondary); font-size: 12px; cursor: pointer; }
 .nexus-chip-on { border-color: var(--dsw-alias-brand-primary); color: var(--dsw-alias-brand-primary); background: var(--dsw-alias-bg-layer-2); }
@@ -123,7 +113,7 @@ module.exports = {
 .nexus-icon-fallback { width: 40px; height: 40px; border-radius: 9px; flex: none; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: var(--dsw-alias-brand-primary); background: var(--dsw-alias-bg-layer-2); }
 .nexus-card-title { min-width: 0; flex: 1; }
 .nexus-repo-card { position: relative; }
-.nexus-repo-head { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.nexus-repo-head { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
 .nexus-repo-head .nexus-icon, .nexus-repo-head .nexus-icon-fallback { width: 56px; height: 56px; border-radius: 12px; font-size: 22px; }
 .nexus-repo-name-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; }
 .nexus-repo-card .nexus-card-name { font-size: 20px; font-weight: 700; }
@@ -164,12 +154,6 @@ module.exports = {
 .nexus-detail-warn { display: flex; gap: 6px; color: var(--dsw-alias-state-error-primary); line-height: 1.6; padding: 6px 8px; border: 1px dashed var(--dsw-alias-state-error-primary); border-radius: 6px; }
 .nexus-card-links { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-top: 2px; }
 .nexus-install-inline { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 11px; }
-.nexus-installed-tag { color: var(--dsw-alias-state-success-primary); font-size: 11px; }
-.nexus-disabled-tag { color: var(--dsw-alias-state-warn-primary); font-size: 11px; }
-.nexus-install-msg { color: var(--dsw-alias-label-secondary); word-break: break-all; max-width: 100%; }
-.nexus-install-msg-ok { color: var(--dsw-alias-state-success-primary); word-break: break-all; max-width: 100%; }
-.nexus-install-msg-fail { color: var(--dsw-alias-state-error-primary); word-break: break-all; max-width: 100%; }
-.nexus-install-result { padding-top: 6px; font-size: 11px; }
 .nexus-cmd-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-top: 6px; font-size: 11px; }
 .nexus-cmd { font-family: ui-monospace, Consolas, monospace; font-size: 11px; color: var(--dsw-alias-label-primary); background: var(--dsw-alias-bg-layer-2); border: 1px solid var(--dsw-alias-border-l1); border-radius: 6px; padding: 4px 8px; word-break: break-all; user-select: all; }
 .nexus-repo-note { font-size: 11px; color: var(--dsw-alias-label-secondary); line-height: 1.6; }
@@ -230,56 +214,10 @@ module.exports = {
       )
     }
 
-    function envValue(e, key) {
-      const v = e[key]
-      const err = e[key + 'Error']
-      if (v != null && v !== '') return v
-      if (err) return '不可用'
-      return '—'
-    }
-
-    function envTip(e) {
-      const keys = ['platform', 'node', 'pnpm', 'npm', 'dsh']
-      for (const k of keys) {
-        if (e[k + 'Error']) return friendlyError(e[k + 'Error'])
-      }
-      return null
-    }
-
     function MoreCard(props) {
-      const [open, setOpen] = React.useState(false)
-      const [env, setEnv] = React.useState(null)
-      React.useEffect(function () {
-        if (!open || env !== null) return
-        host.call('nexus.env').then(function (res) {
-          if (res && res.ok) setEnv(res.env)
-          else setEnv({ error: (res && res.error) || '查询失败' })
-        }).catch(function () { setEnv({ error: '查询失败' }) })
-      }, [open])
-      const e = env || {}
-      const tip = envTip(e)
-      const envBlock = React.createElement('div', { className: 'nexus-env' },
-        React.createElement('div', { className: 'nexus-env-row' }, React.createElement('span', { className: 'nexus-env-label' }, '工作区'), React.createElement('span', null, e.workspace || '—')),
-        React.createElement('div', { className: 'nexus-env-row' }, React.createElement('span', { className: 'nexus-env-label' }, 'Profile'), React.createElement('span', null, e.profile || '—')),
-        React.createElement('div', { className: 'nexus-env-row' }, React.createElement('span', { className: 'nexus-env-label' }, '平台'), React.createElement('span', { title: e.platformError || '' }, envValue(e, 'platform'))),
-        React.createElement('div', { className: 'nexus-env-row' }, React.createElement('span', { className: 'nexus-env-label' }, 'Node'), React.createElement('span', { title: e.nodeError || '' }, envValue(e, 'node'))),
-        React.createElement('div', { className: 'nexus-env-row' }, React.createElement('span', { className: 'nexus-env-label' }, 'pnpm'), React.createElement('span', { title: e.pnpmError || '' }, envValue(e, 'pnpm'))),
-        React.createElement('div', { className: 'nexus-env-row' }, React.createElement('span', { className: 'nexus-env-label' }, 'npm'), React.createElement('span', { title: e.npmError || '' }, envValue(e, 'npm'))),
-        React.createElement('div', { className: 'nexus-env-row' }, React.createElement('span', { className: 'nexus-env-label' }, 'dsh'), React.createElement('span', { title: e.dshError || '' }, envValue(e, 'dsh'))),
-        tip ? React.createElement('div', { className: 'nexus-env-tip' }, tip) : null,
-        e.error ? React.createElement('div', { className: 'nexus-env-row' }, React.createElement('span', { className: 'nexus-env-label' }, '提示'), React.createElement('span', null, e.error)) : null,
-      )
-      return React.createElement('div', { className: 'nexus-navcard nexus-more-card' },
-        React.createElement('button', { className: 'nexus-more-toggle', onClick: function () { setOpen(!open) } },
-          React.createElement('span', null, '更多'),
-          React.createElement('span', { className: 'nexus-more-caret' }, open ? '▴' : '▾'),
-        ),
-        open ? React.createElement('div', { className: 'nexus-more-body' },
-          React.createElement('div', { className: 'nexus-navcard-head' }, '生态导航'),
-          React.createElement('div', { className: 'nexus-navrow' }, props.navLinks.map(navLinkEl)),
-          React.createElement('div', { className: 'nexus-navcard-head' }, '本机环境'),
-          envBlock,
-        ) : null,
+      return React.createElement('div', { className: 'nexus-navcard' },
+        React.createElement('div', { className: 'nexus-navcard-head' }, '生态导航'),
+        React.createElement('div', { className: 'nexus-navrow' }, props.navLinks.map(navLinkEl)),
       )
     }
 
@@ -316,12 +254,8 @@ module.exports = {
           React.createElement('div', { className: 'nexus-repo-name-row' },
             React.createElement('span', { className: 'nexus-card-name' }, repo.display_name || 'DSH 万市枢纽'),
           ),
-          repo.name
-            ? React.createElement('div', { className: 'nexus-repo-subname' }, repo.name)
-            : null,
-          repo.url
-            ? React.createElement('a', { className: 'nexus-repo-url-text', href: repo.url, target: '_blank', rel: 'noopener noreferrer' }, trimUrl(repo.url))
-            : null,
+          repo.name ? React.createElement('div', { className: 'nexus-repo-subname' }, repo.name) : null,
+          repo.url ? React.createElement('a', { className: 'nexus-repo-url-text', href: repo.url, target: '_blank', rel: 'noopener noreferrer' }, trimUrl(repo.url)) : null,
         ),
         (repo.tags && repo.tags.length)
           ? React.createElement('div', { className: 'nexus-card-tags' }, repo.tags.map(function (t) {
@@ -341,10 +275,9 @@ module.exports = {
         ),
         metaNote ? React.createElement('div', { className: 'nexus-repo-note' }, metaNote) : null,
         expired ? React.createElement('div', { className: 'nexus-repo-warn' }, '数据已过期，请点击刷新获取最新数据') : null,
-        props.source ? React.createElement('div', { className: 'nexus-repo-note' }, '数据源：' + props.source) : null,
         repoLinks.length ? React.createElement('div', { className: 'nexus-card-links' },
           repoLinks.map(function (l) {
-            return React.createElement('a', { key: l.url, className: 'nexus-btn' + (l.label !== '枢纽仓库' ? ' nexus-btn-ghost' : ''), href: l.url, target: '_blank', rel: 'noopener noreferrer' }, l.label)
+            return React.createElement('a', { key: l.url, className: 'nexus-btn nexus-btn-ghost', href: l.url, target: '_blank', rel: 'noopener noreferrer' }, l.label)
           }),
         ) : null,
       )
@@ -353,14 +286,9 @@ module.exports = {
     function MarketCard(props) {
       const m = props.market
       const now = props.now
-      const deps = props.deps || []
-      const bundles = props.bundles || []
       const [open, setOpen] = React.useState(false)
-      const [act, setAct] = React.useState(null)
       const [showCmd, setShowCmd] = React.useState(false)
       const [copied, setCopied] = React.useState(false)
-      const [version, setVersion] = React.useState(null)
-      const [versionState, setVersionState] = React.useState('idle')
       const statusMeta = STATUS_META[m.status] || { label: String(m.status), color: '#7c8699' }
 
       const isGithubHome = String(m.homepage || '').indexOf('github.com') !== -1
@@ -369,28 +297,7 @@ module.exports = {
       const siteUrl = m.homepage && !isGithubHome ? m.homepage : null
       const spec = m.npm_package || (repoId ? 'github:' + repoId : null)
       const installable = spec && (m.categories || []).some(function (c) { return c === 'plugin' || c === 'marketplace' })
-      const installed = installable && deps.some(function (d) {
-        const dv = String(d.value || '')
-        if (m.npm_package && (d.name === m.npm_package || d.name.indexOf(m.npm_package) !== -1 || dv.indexOf(m.npm_package) !== -1)) return true
-        if (repoId && (d.name.indexOf(repoId) !== -1 || dv.indexOf(repoId) !== -1)) return true
-        return false
-      })
-      const enabled = installed && bundles.some(function (b) {
-        if (m.npm_package && b === m.npm_package) return true
-        if (repoId && (b.indexOf(repoId) !== -1 || repoId.indexOf(b) !== -1)) return true
-        return false
-      })
-      const installCmd = 'dsh plugin --profile web add ' + spec
-      const removeCmd = 'dsh plugin --profile web remove ' + spec
-
-      React.useEffect(function () {
-        if (!open || !installable || !m.npm_package || versionState !== 'idle') return
-        setVersionState('loading')
-        host.call('nexus.latest', { pkg: m.npm_package }).then(function (res) {
-          if (res && res.ok) setVersion(res.version)
-          setVersionState('done')
-        }).catch(function () { setVersionState('done') })
-      }, [open])
+      const installCmd = installable ? 'dsh plugin --profile web add ' + spec : null
 
       const copyText = function (text) {
         try {
@@ -430,51 +337,6 @@ module.exports = {
           )
         : null
 
-      const runAction = function (kind) {
-        setAct({ phase: 'running', kind: kind, msg: '' })
-        const call = kind === 'install' ? 'nexus.install' : (kind === 'uninstall' ? 'nexus.uninstall' : 'nexus.setEnabled')
-        const args = kind === 'enable' || kind === 'disable' ? { spec: spec, enabled: kind === 'enable' } : { spec: spec }
-        host.call(call, args).then(function (res) {
-          if (res && res.ok) {
-            const label = kind === 'install' ? '安装成功' : (kind === 'uninstall' ? '已卸载' : (kind === 'enable' ? '已启用' : '已停用'))
-            setAct({ phase: 'result', kind: kind, ok: true, msg: label + '，重启 DSH 后生效' + (res.note ? '（' + res.note + '）' : '') })
-          } else {
-            setAct({ phase: 'result', kind: kind, ok: false, msg: friendlyError(res && (res.err || res.error)) })
-          }
-        }).catch(function (err) {
-          setAct({ phase: 'result', kind: kind, ok: false, msg: friendlyError((err && err.message) || err) })
-        })
-      }
-
-      let installInline = null
-      if (installable) {
-        let controls
-        if (act && act.phase === 'confirm') {
-          const actLabel = act.kind === 'install' ? '安装' : (act.kind === 'uninstall' ? '卸载' : (act.kind === 'enable' ? '启用' : '停用'))
-          controls = React.createElement(React.Fragment, null,
-            React.createElement('span', { className: 'nexus-install-msg' }, '确认' + actLabel + ' ' + spec + ' ？'),
-            React.createElement('button', { className: 'nexus-btn', onClick: function () { runAction(act.kind) } }, '确认'),
-            React.createElement('button', { className: 'nexus-btn nexus-btn-ghost', onClick: function () { setAct(null) } }, '取消'),
-          )
-        } else if (act && act.phase === 'running') {
-          const actLabel = act.kind === 'install' ? '安装' : (act.kind === 'uninstall' ? '卸载' : (act.kind === 'enable' ? '启用' : '停用'))
-          controls = React.createElement('span', { className: 'nexus-install-msg' }, '正在' + actLabel + '，请稍候…')
-        } else {
-          controls = React.createElement(React.Fragment, null,
-            installed && enabled ? React.createElement('span', { className: 'nexus-installed-tag' }, '✓ 已安装') : null,
-            installed && !enabled ? React.createElement('span', { className: 'nexus-disabled-tag' }, '‖ 已停用') : null,
-            installed
-              ? React.createElement(React.Fragment, null,
-                  React.createElement('button', { className: 'nexus-btn', onClick: function () { setAct({ phase: 'confirm', kind: enabled ? 'disable' : 'enable', msg: '' }) } }, enabled ? '停用' : '启用'),
-                  React.createElement('button', { className: 'nexus-btn nexus-btn-danger', onClick: function () { setAct({ phase: 'confirm', kind: 'uninstall', msg: '' }) } }, '卸载'),
-                )
-              : React.createElement('button', { className: 'nexus-btn', onClick: function () { setAct({ phase: 'confirm', kind: 'install', msg: '' }) } }, '安装'),
-            React.createElement('button', { className: 'nexus-btn nexus-btn-ghost', onClick: function () { setShowCmd(!showCmd); setCopied(false) } }, '命令'),
-          )
-        }
-        installInline = React.createElement('span', { className: 'nexus-install-inline' }, controls)
-      }
-
       const detail = open ? React.createElement('div', { className: 'nexus-card-detail' },
         m.security_note ? React.createElement('div', { className: 'nexus-detail-warn' }, '安全提示：' + m.security_note) : null,
         m.status_message ? detailRow('状态', m.status_message) : null,
@@ -485,7 +347,6 @@ module.exports = {
         detailRow('更新频率', refreshLabel),
         detailRow('内容更新', relativeTime(m.last_plugin_update, now), m.last_plugin_update || ''),
         detailRow('收录时间', shortDate(m.first_added) + (since ? '（已收录 ' + since + '）' : ''), m.first_added || ''),
-        installable && m.npm_package ? detailRow('最新版本', versionState === 'loading' ? '查询中…' : (version || '查询失败'), 'npm: ' + m.npm_package) : null,
         m.environment ? detailRow('环境要求', m.environment) : null,
         upstreams ? detailRow('上游源', upstreams.join(' · ')) : null,
       ) : null
@@ -519,31 +380,22 @@ module.exports = {
         React.createElement('div', { className: 'nexus-card-links' },
           siteUrl ? React.createElement('a', { className: 'nexus-btn', href: siteUrl, target: '_blank', rel: 'noopener noreferrer' }, '访问市场网站') : null,
           repoUrl ? React.createElement('a', { className: 'nexus-btn nexus-btn-ghost', href: repoUrl, target: '_blank', rel: 'noopener noreferrer' }, 'GitHub 仓库') : null,
-          installInline,
-        ),
-        showCmd && installable ? React.createElement('div', { className: 'nexus-cmd-row' },
-          installed
-            ? React.createElement(React.Fragment, null,
-                React.createElement('code', { className: 'nexus-cmd' }, removeCmd),
-                React.createElement('button', { className: 'nexus-btn', onClick: function () { copyText(removeCmd) } }, copied ? '已复制' : '复制卸载'),
-                React.createElement('span', { className: 'nexus-install-msg' }, '停用/启用：请在面板使用按钮（需重启 DSH 生效）'),
+          installable && installCmd
+            ? React.createElement('span', { className: 'nexus-install-inline' },
+                React.createElement('button', { className: 'nexus-btn nexus-btn-ghost', onClick: function () { setShowCmd(!showCmd); setCopied(false) } }, '安装命令'),
               )
-            : React.createElement(React.Fragment, null,
-                React.createElement('code', { className: 'nexus-cmd' }, installCmd),
-                React.createElement('button', { className: 'nexus-btn', onClick: function () { copyText(installCmd) } }, copied ? '已复制' : '复制安装'),
-                React.createElement('span', { className: 'nexus-install-msg' }, '在终端中运行即可手动安装（需重启 DSH 生效）'),
-              ),
+            : null,
+        ),
+        showCmd && installCmd ? React.createElement('div', { className: 'nexus-cmd-row' },
+          React.createElement('code', { className: 'nexus-cmd' }, installCmd),
+          React.createElement('button', { className: 'nexus-btn', onClick: function () { copyText(installCmd) } }, copied ? '已复制' : '复制'),
+          React.createElement('span', { className: 'nexus-install-inline' }, '在终端运行即可安装（安装后重启 DSH 生效）'),
         ) : null,
-        act && act.phase === 'result'
-          ? React.createElement('div', { className: 'nexus-install-result' }, React.createElement('span', { className: act.ok ? 'nexus-install-msg-ok' : 'nexus-install-msg-fail' }, act.msg))
-          : null,
       )
     }
 
     function NexusPanel() {
-      const [result, setResult] = React.useState({ phase: 'loading', data: null, error: null, source: null })
-      const [deps, setDeps] = React.useState([])
-      const [bundles, setBundles] = React.useState([])
+      const [result, setResult] = React.useState({ phase: 'loading', data: null, error: null })
       const [tick, setTick] = React.useState(0)
       const [catFilter, setCatFilter] = React.useState('all')
       const [inputValue, setInputValue] = React.useState('')
@@ -552,29 +404,19 @@ module.exports = {
 
       React.useEffect(function () {
         let alive = true
-        host.call('nexus.load').then(function (res) {
-          if (!alive) return
-          if (res && res.ok) {
-            setResult({ phase: 'ready', data: res.data, error: null, source: res.source })
-          } else {
-            setResult({ phase: 'error', data: null, error: (res && res.error) || '加载失败', source: null })
-          }
-        }).catch(function (err) {
-          if (!alive) return
-          setResult({ phase: 'error', data: null, error: String((err && err.message) || err), source: null })
-        })
-        return function () { alive = false }
-      }, [tick])
-
-      React.useEffect(function () {
-        let alive = true
-        host.call('nexus.installed').then(function (res) {
-          if (!alive) return
-          if (res && res.ok) {
-            if (Array.isArray(res.deps)) setDeps(res.deps)
-            if (Array.isArray(res.bundles)) setBundles(res.bundles)
-          }
-        }).catch(function () {})
+        fetch(REMOTE_DATA_URL)
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status)
+            return res.json()
+          })
+          .then(function (data) {
+            if (!alive) return
+            setResult({ phase: 'ready', data: data, error: null })
+          })
+          .catch(function (err) {
+            if (!alive) return
+            setResult({ phase: 'error', data: null, error: String((err && err.message) || err) })
+          })
         return function () { alive = false }
       }, [tick])
 
@@ -618,7 +460,7 @@ module.exports = {
       })
 
       return React.createElement('div', { className: 'nexus-root' },
-        React.createElement(RepoCard, { repo: repo, meta: meta, summary: summary, source: result.source, now: now }),
+        React.createElement(RepoCard, { repo: repo, meta: meta, summary: summary, now: now }),
         React.createElement(MoreCard, { navLinks: NAV_LINKS }),
         React.createElement('div', { className: 'nexus-toolbar' },
           chipRow,
@@ -641,23 +483,37 @@ module.exports = {
           React.createElement('button', { className: 'nexus-btn', onClick: function () { setTick(tick + 1) } }, '刷新'),
         ),
         result.phase === 'error'
-          ? React.createElement('div', { className: 'nexus-error' }, '加载失败：' + result.error)
-          : filtered.length === 0
-            ? React.createElement('div', { className: 'nexus-empty' }, result.phase === 'loading' ? '正在加载市场数据…' : '没有匹配的市场')
-            : React.createElement('div', { className: 'nexus-grid' }, filtered.map(function (m) {
-                return React.createElement(MarketCard, { market: m, key: m.id, now: now, deps: deps, bundles: bundles })
-              })),
+          ? React.createElement('div', { className: 'nexus-error' }, '加载失败：' + result.error + '（请检查网络/代理；数据源 ' + REMOTE_DATA_URL + '）')
+          : result.phase === 'loading'
+            ? React.createElement('div', { className: 'nexus-loading' }, '正在加载市场数据…')
+            : filtered.length === 0
+              ? React.createElement('div', { className: 'nexus-empty' }, '没有匹配的市场')
+              : React.createElement('div', { className: 'nexus-grid' }, filtered.map(function (m) {
+                  return React.createElement(MarketCard, { market: m, key: m.id, now: now })
+                })),
       )
     }
 
     const slots = ctx.get('slots')
     if (slots === undefined) return
-    styles.insert(CSS)
+    // CSS 注入：用纯 DOM（不依赖 styles 全局，保证标准 bundle 环境可用）
+    try {
+      const styleEl = document.createElement('style')
+      styleEl.textContent = CSS
+      document.head.appendChild(styleEl)
+    } catch (e) {
+      // document 不可用时静默（样式缺失不影响功能）
+    }
     slots.inject('settings.section', function () {
       return slots.register(
         { name: 'settings.section', id: 'marketplaces-nexus', order: 30, label: '万市枢纽' },
         function () { return React.createElement(NexusPanel) },
       )
     })
-  },
-}
+  }
+    exports.apply = apply
+    exports.inject = inject
+    exports.name = name
+    return module.exports
+  }
+})

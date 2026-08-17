@@ -1,7 +1,7 @@
 {
   "name": "dsh-marketplaces-nexus",
-  "version": "0.1.0",
-  "description": "DSH 万市枢纽市场面板：聚合展示 DSH 生态的插件市场、插件市场网站与精选库，支持搜索、筛选、排序、安装/卸载/停用/启用管理",
+  "version": "0.1.2",
+  "description": "DSH 万市枢纽市场面板：聚合展示 DSH 生态的插件市场、插件市场网站与精选库，支持搜索、筛选、排序",
   "main": "src/index.js",
   "files": [
     "src",
@@ -15,10 +15,23 @@
     "cordis"
   ],
   "license": "MIT",
+  "exports": {
+    ".": "./src/index.js",
+    "./client": "./src/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
   "dsh": {
     "bundle": {
       "patch": "cordis.patch.yml"
     },
-    "client": "src/client.js"
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-settings"
+      ]
+    }
   }
 }
