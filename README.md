@@ -10,6 +10,10 @@
 - **全自动维护**：AI 负责发现、初筛、收录与修正，脚本刷新数值；人工只需处理 AI 标记的 `manual_request` 建议项。
 - **开箱即用的面板**：DSH 插件形态的市场面板，供 DSH 用户发现和选择插件源。
 
+## 界面
+
+![界面](plugin/界面.png)
+
 ## 数据文件
 
 | 文件 | 说明 |
@@ -23,9 +27,7 @@
 
 ### 数据加载
 
-- 原始文件：`https://raw.githubusercontent.com/TeaClearInkII/DSH-Marketplaces-Nexus/main/docs/marketplaces.json`
-- CDN 加速：`https://cdn.jsdelivr.net/gh/TeaClearInkII/DSH-Marketplaces-Nexus@main/docs/marketplaces.json`
-- 面板加载顺序：本机工作区 → 包内快照 → 远程 raw 回退。
+- 面板数据源：`https://raw.githubusercontent.com/TeaClearInkII/DSH-Marketplaces-Nexus/main/docs/marketplaces.json`（插件内固定，可被用户配置 `dataUrl` 覆盖）
 
 ## 市场分类（categories）
 
