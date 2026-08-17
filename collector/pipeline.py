@@ -879,9 +879,15 @@ def run_stage_refine():
 
 
 def run_stage_refresh():
-    """仅数值刷新：stars/pushed_at/网站统计/summary。"""
+    """仅数值刷新：stars/pushed_at/网站统计/summary + 市场目录。"""
     from collector import update as updater
     updater.main()   # 不传 out_path → 正式文件 + summary 正常同步
+    try:
+        from collector import gen_markdown
+        gen_markdown.main()
+        log("[stage] 市场目录 MARKETS.md 已重新生成")
+    except Exception as e:
+        log("[warn] 市场目录生成失败：%s" % e)
     return 0
 
 
@@ -1033,6 +1039,7 @@ def cmd_menu():
         print("[15] 查看/清理失败队列")
         print("[16] 清除断点进度（从头跑全流程）")
         print("[17] 查看 manual_request（AI 建议人工处理项）")
+        print("[18] 生成市场目录（MARKETS.md）")
         print("[0] 退出")
         try:
             choice = input("选择：").strip()
@@ -1147,8 +1154,25 @@ def cmd_menu():
             if not found:
                 print("（无 manual_request 建议项）")
             print("处理方式：编辑 docs/marketplaces.json 修正字段后，删除该条目的 ai_hint.manual_request（恢复自动修正）。")
+        elif choice == "18":
+            try:
+                from collector import gen_markdown
+                n = gen_markdown.main()
+                print("（已生成 MARKETS.md：%d 个市场）" % n)
+            except Exception as e:
+                print("生成失败：%s" % e)
         elif choice == "0":
             break
+
+
+def purge_cdn():
+    """推送后清理 jsDelivr CDN 缓存（面板主数据源），使数据更新立即生效。"""
+    url = "https://purge.jsdelivr.net/gh/%s/%s@main/docs/marketplaces.json" % (REPO_OWNER, REPO_NAME)
+    try:
+        http_get(url, timeout=20)
+        log("[push] jsDelivr CDN 缓存已清理：%s" % url)
+    except Exception as e:
+        log("[warn] jsDelivr CDN 清理失败（可稍后手动访问该 URL）：%s" % e)
 
 
 def cmd_push():
@@ -1168,6 +1192,7 @@ def cmd_push():
         subprocess.run(["git", "commit", "-m", "pipeline: 自动更新数据 %s" % now_iso()[:10]], cwd=ROOT, check=True)
         subprocess.run(["git", "push"], cwd=ROOT, check=True)
         print("已提交并推送。")
+        purge_cdn()
     except Exception as e:
         print("push 失败：%s（可能无变更或无远程仓库）" % e)
         return 1

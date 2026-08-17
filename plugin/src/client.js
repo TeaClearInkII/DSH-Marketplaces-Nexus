@@ -2,8 +2,9 @@
  * DSH 万市枢纽 —— Client 侧插件（npm 发布版，标准 Cordis API）
  *
  * 在 DSH Web 设置页注册「万市枢纽」页面（settings.section）：
- * 数据直接 fetch 远程 raw（raw.githubusercontent.com，CORS 允许），
- * 不依赖 host RPC / 动态插件 API，保证任何环境可加载。
+ * 数据多级兜底获取（jsDelivr CDN → GitHub API → raw，均允许 CORS），
+ * 配合本地缓存（stale-while-revalidate）：先渲染缓存秒开，后台静默刷新，
+ * 全部源失败时回落缓存，不依赖 host RPC / 动态插件 API，保证任何环境可加载。
  *
  * 安装管理降级为「显示安装命令 + 复制」（本机安装请用 dsh plugin 命令）。
  *
@@ -48,9 +49,64 @@ window.__ModuleLoader__.load({
       { label: 'GitHub 搜索', url: 'https://github.com/search?q=dsh-plugin&type=repositories' },
     ]
 
-    // 数据源：远程 raw（可被插件 config 的 dataUrl 覆盖）
-    const REMOTE_DATA_URL =
-      'https://raw.githubusercontent.com/TeaClearInkII/DSH-Marketplaces-Nexus/main/docs/marketplaces.json'
+    // 数据源：多级兜底（jsDelivr CDN 主 → GitHub API 实时 → raw 最后兜底；均可被 config 的 dataUrl 覆盖）
+    // 本地缓存 + 后台刷新（stale-while-revalidate）：打开面板先渲染缓存，网络失败时回落缓存不报错
+    const REMOTE_DATA_SOURCES = [
+      { name: 'jsDelivr', kind: 'json', url: 'https://cdn.jsdelivr.net/gh/TeaClearInkII/DSH-Marketplaces-Nexus@main/docs/marketplaces.json' },
+      { name: 'GitHub API', kind: 'base64', url: 'https://api.github.com/repos/TeaClearInkII/DSH-Marketplaces-Nexus/contents/docs/marketplaces.json' },
+      { name: 'raw', kind: 'json', url: 'https://raw.githubusercontent.com/TeaClearInkII/DSH-Marketplaces-Nexus/main/docs/marketplaces.json' },
+    ]
+    const CACHE_KEY = 'nexus_marketplaces_v1'
+
+    function loadCached() {
+      try {
+        const raw = localStorage.getItem(CACHE_KEY)
+        if (!raw) return null
+        const obj = JSON.parse(raw)
+        return obj && obj.data ? obj : null
+      } catch (e) {
+        return null
+      }
+    }
+
+    function saveCache(data) {
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: data }))
+      } catch (e) {
+        // 存储不可用时静默（无缓存不影响功能）
+      }
+    }
+
+    function fetchRemote(done) {
+      var queue = REMOTE_DATA_SOURCES.slice()
+      var attempt = function (idx) {
+        if (idx >= queue.length) {
+          const cached = loadCached()
+          done(cached
+            ? { phase: 'ready', data: cached.data, error: '所有数据源均不可用', source: '缓存', fromCache: true, ts: cached.ts }
+            : { phase: 'error', data: null, error: '所有数据源均不可用（jsDelivr / GitHub API / raw）', source: null, fromCache: false })
+          return
+        }
+        const src = queue[idx]
+        fetch(src.url)
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status)
+            return res.json()
+          })
+          .then(function (raw) {
+            let data = raw
+            if (src.kind === 'base64') {
+              const b64 = String((raw && raw.content) || '').replace(/\s+/g, '')
+              data = JSON.parse(decodeURIComponent(escape(atob(b64))))
+            }
+            if (!data || !data.markets) throw new Error('数据格式异常')
+            saveCache(data)
+            done({ phase: 'ready', data: data, error: null, source: src.name, fromCache: false, ts: Date.now() })
+          })
+          .catch(function () { attempt(idx + 1) })
+      }
+      attempt(0)
+    }
 
     function shortDate(iso) {
       return iso ? String(iso).slice(0, 10) : '未知'
@@ -395,7 +451,12 @@ window.__ModuleLoader__.load({
     }
 
     function NexusPanel() {
-      const [result, setResult] = React.useState({ phase: 'loading', data: null, error: null })
+      const [result, setResult] = React.useState(function () {
+        const cached = loadCached()
+        return cached
+          ? { phase: 'ready', data: cached.data, error: null, source: '缓存', fromCache: true, ts: cached.ts }
+          : { phase: 'loading', data: null, error: null, source: null, fromCache: false, ts: null }
+      })
       const [tick, setTick] = React.useState(0)
       const [catFilter, setCatFilter] = React.useState('all')
       const [inputValue, setInputValue] = React.useState('')
@@ -404,19 +465,7 @@ window.__ModuleLoader__.load({
 
       React.useEffect(function () {
         let alive = true
-        fetch(REMOTE_DATA_URL)
-          .then(function (res) {
-            if (!res.ok) throw new Error('HTTP ' + res.status)
-            return res.json()
-          })
-          .then(function (data) {
-            if (!alive) return
-            setResult({ phase: 'ready', data: data, error: null })
-          })
-          .catch(function (err) {
-            if (!alive) return
-            setResult({ phase: 'error', data: null, error: String((err && err.message) || err) })
-          })
+        fetchRemote(function (r) { if (alive) setResult(r) })
         return function () { alive = false }
       }, [tick])
 
@@ -459,8 +508,18 @@ window.__ModuleLoader__.load({
         }, c.label)
       })
 
+      let statusLine = ''
+      if (result.fromCache) {
+        statusLine = '当前显示本地缓存（更新于 ' + (result.ts ? shortDate(result.ts) : '未知') + '）' + (result.error ? '；最新数据加载失败：' + result.error + '，点击「刷新」重试' : '；正在后台刷新…')
+      } else if (result.source) {
+        statusLine = '数据源：' + result.source
+      } else if (result.phase === 'loading') {
+        statusLine = '正在加载市场数据…'
+      }
+
       return React.createElement('div', { className: 'nexus-root' },
         React.createElement(RepoCard, { repo: repo, meta: meta, summary: summary, now: now }),
+        statusLine ? React.createElement('div', { className: 'nexus-repo-note', style: { textAlign: 'center' } }, statusLine) : null,
         React.createElement(MoreCard, { navLinks: NAV_LINKS }),
         React.createElement('div', { className: 'nexus-toolbar' },
           chipRow,
@@ -483,7 +542,7 @@ window.__ModuleLoader__.load({
           React.createElement('button', { className: 'nexus-btn', onClick: function () { setTick(tick + 1) } }, '刷新'),
         ),
         result.phase === 'error'
-          ? React.createElement('div', { className: 'nexus-error' }, '加载失败：' + result.error + '（请检查网络/代理；数据源 ' + REMOTE_DATA_URL + '）')
+          ? React.createElement('div', { className: 'nexus-error' }, '加载失败：' + result.error + '（已尝试 ' + REMOTE_DATA_SOURCES.map(function (s) { return s.name }).join(' / ') + '，请检查网络/代理后点击「刷新」重试）')
           : result.phase === 'loading'
             ? React.createElement('div', { className: 'nexus-loading' }, '正在加载市场数据…')
             : filtered.length === 0

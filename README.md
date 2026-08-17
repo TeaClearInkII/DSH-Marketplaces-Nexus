@@ -34,7 +34,7 @@ dsh plugin --profile web remove dsh-marketplaces-nexus
 
 安装/更新/卸载后**重启 DSH**，进入 设置 → 万市枢纽。
 
-- 面板直接读取本仓库 `docs/marketplaces.json`（远程 raw）：仓库推送数据更新后面板自动刷新，**无需重装插件**。
+- 面板数据多级兜底获取（jsDelivr CDN → GitHub API → raw），配合本地缓存：打开面板先渲染缓存秒开、后台静默刷新，网络异常时回落缓存不报错；仓库推送数据后自动清理 CDN 缓存，**无需重装插件**。
 - `npm publish` 仅在**面板代码变更**时执行；数据更新只需推仓库。
 
 ## 提交新市场
@@ -53,6 +53,7 @@ dsh plugin --profile web remove dsh-marketplaces-nexus
 | :--- | :--- |
 | `docs/marketplaces.json` | 完整市场列表（Schema v2.5.0，id 为 m-XXXX 编号） |
 | `docs/summary.json` | 统计摘要（总数/分类计数/活跃数，面板快速加载用） |
+| `MARKETS.md` | 人类可读市场目录（自动生成，分类链接 + 简介） |
 | `schema/schema.json` | JSON Schema 定义（v2.5.0） |
 | `data/` | 流水线中间产物（排除名单/待复核/失败队列/变更日志，不发布） |
 
