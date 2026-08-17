@@ -14,6 +14,12 @@
 
 ![界面](界面.png)
 
+```sh
+# 安装
+dsh plugin --profile web update dsh-marketplaces-nexus
+
+```
+
 ## 数据文件
 
 | 文件 | 说明 |
