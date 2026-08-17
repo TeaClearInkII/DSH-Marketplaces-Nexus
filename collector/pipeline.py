@@ -1039,7 +1039,7 @@ def cmd_menu():
         print("[15] 查看/清理失败队列")
         print("[16] 清除断点进度（从头跑全流程）")
         print("[17] 查看 manual_request（AI 建议人工处理项）")
-        print("[18] 生成市场目录（MARKETS.md）")
+        print("[18] 更新 README 市场目录")
         print("[0] 退出")
         try:
             choice = input("选择：").strip()
@@ -1158,9 +1158,9 @@ def cmd_menu():
             try:
                 from collector import gen_markdown
                 n = gen_markdown.main()
-                print("（已生成 MARKETS.md：%d 个市场）" % n)
+                print("（已更新 README 市场目录：%d 个市场）" % n)
             except Exception as e:
-                print("生成失败：%s" % e)
+                print("更新失败：%s" % e)
         elif choice == "0":
             break
 
