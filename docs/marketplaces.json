@@ -21,7 +21,7 @@
   },
   "file_meta": {
     "schema_version": "2.5.0",
-    "generated_at": "2026-08-17T00:32:10Z",
+    "generated_at": "2026-08-17T09:30:39Z",
     "valid_until": null
   },
   "summary": {
@@ -37,7 +37,7 @@
     "active_count": 53,
     "inactive_count": 0,
     "most_active": "m-0010",
-    "last_check": "2026-08-17T00:32:10Z"
+    "last_check": "2026-08-17T09:30:39Z"
   },
   "markets": [
     {
@@ -56,8 +56,8 @@
         "DSH"
       ],
       "popularity": {
-        "github_stars": 38,
-        "stars_delta": 2,
+        "github_stars": 44,
+        "stars_delta": 6,
         "rank": null
       },
       "item_count": null,
@@ -68,7 +68,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "awesome-dsh-plugin/dsh-find-plugin",
-        "last_sync": "2026-08-17T00:24:32Z"
+        "last_sync": "2026-08-17T09:28:54Z"
       },
       "verification": {
         "level": "auto_scan",
@@ -130,7 +130,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "HubaKing/dsh-community-plugins",
-        "last_sync": "2026-08-17T00:24:33Z"
+        "last_sync": "2026-08-17T09:28:55Z"
       },
       "verification": {
         "level": "auto_scan",
@@ -182,19 +182,19 @@
         "更新"
       ],
       "popularity": {
-        "github_stars": 562,
-        "stars_delta": 0,
+        "github_stars": 758,
+        "stars_delta": 196,
         "rank": null
       },
       "item_count": 1054,
       "item_count_delta": 50,
       "status": "active",
-      "last_plugin_update": "2026-08-16T17:22:29Z",
+      "last_plugin_update": "2026-08-17T08:49:52Z",
       "last_check": "2026-08-17T08:12:09+08:00",
       "data_source": {
         "type": "github_repo",
         "identifier": "dsh-market/dsh-market",
-        "last_sync": "2026-08-17T00:24:34Z"
+        "last_sync": "2026-08-17T09:28:56Z"
       },
       "verification": {
         "level": "official",
@@ -248,19 +248,19 @@
         "AI推荐"
       ],
       "popularity": {
-        "github_stars": 61,
-        "stars_delta": 0,
+        "github_stars": 68,
+        "stars_delta": 7,
         "rank": null
       },
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T14:06:26Z",
+      "last_plugin_update": "2026-08-17T01:05:25Z",
       "last_check": "2026-08-16T23:25:26Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "mishibeikejie/zat-dsh-engine",
-        "last_sync": "2026-08-17T00:24:35Z"
+        "last_sync": "2026-08-17T09:28:58Z"
       },
       "verification": {
         "level": "auto_scan",
@@ -315,8 +315,8 @@
         "插件面板"
       ],
       "popularity": {
-        "github_stars": 32,
-        "stars_delta": 0,
+        "github_stars": 34,
+        "stars_delta": 2,
         "rank": null
       },
       "item_count": null,
@@ -327,7 +327,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "Noob-stupid/dsh-plugin-hub",
-        "last_sync": "2026-08-17T00:24:36Z"
+        "last_sync": "2026-08-17T09:28:59Z"
       },
       "verification": {
         "level": "auto_scan",
@@ -381,19 +381,19 @@
         "安装管理"
       ],
       "popularity": {
-        "github_stars": 19,
-        "stars_delta": 0,
+        "github_stars": 20,
+        "stars_delta": 1,
         "rank": null
       },
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T23:17:57Z",
+      "last_plugin_update": "2026-08-17T09:10:44Z",
       "last_check": "2026-08-17T08:12:12+08:00",
       "data_source": {
         "type": "github_repo",
         "identifier": "YELEBAI/dsh-plugin-marketplace",
-        "last_sync": "2026-08-17T00:24:46Z"
+        "last_sync": "2026-08-17T09:29:05Z"
       },
       "verification": {
         "level": "community_approved",
@@ -446,19 +446,19 @@
         "plugin-manager"
       ],
       "popularity": {
-        "github_stars": 64,
-        "stars_delta": 0,
+        "github_stars": 70,
+        "stars_delta": 6,
         "rank": null
       },
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-15T17:59:39Z",
+      "last_plugin_update": "2026-08-17T09:15:22Z",
       "last_check": "2026-08-17T08:12:27+08:00",
       "data_source": {
         "type": "github_repo",
         "identifier": "Sanqi-normal/dsh-webui-market-plugin",
-        "last_sync": "2026-08-17T00:24:48Z"
+        "last_sync": "2026-08-17T09:29:07Z"
       },
       "verification": {
         "level": "community_approved",
@@ -514,19 +514,19 @@
         "agent"
       ],
       "popularity": {
-        "github_stars": 21,
-        "stars_delta": 0,
+        "github_stars": 24,
+        "stars_delta": 3,
         "rank": null
       },
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T08:27:26Z",
+      "last_plugin_update": "2026-08-17T02:58:37Z",
       "last_check": "2026-08-16T23:28:13Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "AwesomeHou/dsh-plugin-marketplace",
-        "last_sync": "2026-08-17T00:24:49Z"
+        "last_sync": "2026-08-17T09:29:08Z"
       },
       "verification": {
         "level": "auto_scan",
@@ -583,19 +583,19 @@
         "DSH"
       ],
       "popularity": {
-        "github_stars": 50,
-        "stars_delta": 0,
+        "github_stars": 52,
+        "stars_delta": 2,
         "rank": null
       },
       "item_count": 4,
       "item_count_delta": 0,
       "status": "active",
-      "last_plugin_update": "2026-08-13T14:22:05Z",
+      "last_plugin_update": "2026-08-17T07:36:52Z",
       "last_check": "2026-08-17T08:12:29+08:00",
       "data_source": {
         "type": "github_repo",
         "identifier": "vlln/plugin-registry",
-        "last_sync": "2026-08-17T00:24:50Z"
+        "last_sync": "2026-08-17T09:29:09Z"
       },
       "verification": {
         "level": "auto_scan",
@@ -632,19 +632,19 @@
         "curated"
       ],
       "popularity": {
-        "github_stars": 5111,
-        "stars_delta": 41,
+        "github_stars": 6966,
+        "stars_delta": 1855,
         "rank": null
       },
       "item_count": 1054,
       "item_count_delta": 50,
       "status": "active",
-      "last_plugin_update": "2026-08-16T20:39:35Z",
+      "last_plugin_update": "2026-08-17T09:28:43Z",
       "last_check": "2026-08-16T23:28:39Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "awesome-dsh-plugin/awesome-dsh-plugin",
-        "last_sync": "2026-08-17T00:24:52Z"
+        "last_sync": "2026-08-17T09:29:11Z"
       },
       "verification": {
         "level": "community_approved",
@@ -698,19 +698,19 @@
         "安装"
       ],
       "popularity": {
-        "github_stars": 5,
-        "stars_delta": 0,
+        "github_stars": 6,
+        "stars_delta": 1,
         "rank": null
       },
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T04:02:57Z",
+      "last_plugin_update": "2026-08-17T08:32:39Z",
       "last_check": "2026-08-16T23:28:49Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "vvlife/whalehub-dsh",
-        "last_sync": "2026-08-17T00:24:56Z"
+        "last_sync": "2026-08-17T09:29:13Z"
       },
       "verification": {
         "level": "auto_scan",
@@ -761,19 +761,19 @@
         "社区"
       ],
       "popularity": {
-        "github_stars": 42,
-        "stars_delta": 1,
+        "github_stars": 52,
+        "stars_delta": 10,
         "rank": null
       },
       "item_count": 1419,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T20:39:43Z",
+      "last_plugin_update": "2026-08-17T09:03:30Z",
       "last_check": "2026-08-16T23:28:53Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "like-study1/Oh-My-DSH",
-        "last_sync": "2026-08-17T00:24:57Z"
+        "last_sync": "2026-08-17T09:29:16Z"
       },
       "verification": {
         "level": "community_approved",
@@ -971,8 +971,8 @@
         "资源列表"
       ],
       "popularity": {
-        "github_stars": 11,
-        "stars_delta": 0,
+        "github_stars": 12,
+        "stars_delta": 1,
         "rank": null
       },
       "item_count": 849,
@@ -983,7 +983,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "fendouai/awesome-deepseek-harness",
-        "last_sync": "2026-08-17T00:24:59Z"
+        "last_sync": "2026-08-17T09:29:17Z"
       },
       "verification": {
         "level": "community_approved",
@@ -1117,19 +1117,19 @@
         "生态"
       ],
       "popularity": {
-        "github_stars": 178,
-        "stars_delta": 0,
+        "github_stars": 197,
+        "stars_delta": 19,
         "rank": null
       },
       "item_count": 3408,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T12:42:38Z",
+      "last_plugin_update": "2026-08-17T07:12:21Z",
       "last_check": "2026-08-17T08:13:51+08:00",
       "data_source": {
         "type": "github_repo",
         "identifier": "bruc3van/awesome-dsh-plugin",
-        "last_sync": "2026-08-17T00:25:02Z"
+        "last_sync": "2026-08-17T09:29:20Z"
       },
       "verification": {
         "level": "community_approved",
@@ -1185,19 +1185,19 @@
         "工具"
       ],
       "popularity": {
-        "github_stars": 604,
-        "stars_delta": 2,
+        "github_stars": 661,
+        "stars_delta": 57,
         "rank": null
       },
       "item_count": 394,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T17:15:04Z",
+      "last_plugin_update": "2026-08-17T08:29:26Z",
       "last_check": "2026-08-16T23:32:31Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "0xsline/awesome-deepseek-harness",
-        "last_sync": "2026-08-17T00:25:03Z"
+        "last_sync": "2026-08-17T09:29:21Z"
       },
       "verification": {
         "level": "community_approved",
@@ -1252,8 +1252,8 @@
         "社区验证"
       ],
       "popularity": {
-        "github_stars": 66,
-        "stars_delta": 0,
+        "github_stars": 68,
+        "stars_delta": 2,
         "rank": null
       },
       "item_count": 97,
@@ -1264,7 +1264,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "Alex-Yanggg/awesome-DSH-plugin",
-        "last_sync": "2026-08-17T00:25:04Z"
+        "last_sync": "2026-08-17T09:29:22Z"
       },
       "verification": {
         "level": "community_approved",
@@ -1303,19 +1303,19 @@
         "DSH"
       ],
       "popularity": {
-        "github_stars": 50,
-        "stars_delta": 0,
+        "github_stars": 61,
+        "stars_delta": 11,
         "rank": null
       },
       "item_count": 320,
       "item_count_delta": 6,
       "status": "active",
-      "last_plugin_update": "2026-08-17T00:04:21Z",
+      "last_plugin_update": "2026-08-17T09:27:54Z",
       "last_check": "2026-08-17T08:15:35+08:00",
       "data_source": {
         "type": "github_repo",
         "identifier": "beancookie/awesome-dsh-plugin",
-        "last_sync": "2026-08-17T00:25:06Z"
+        "last_sync": "2026-08-17T09:29:24Z"
       },
       "verification": {
         "level": "community_approved",
@@ -1370,19 +1370,19 @@
         "自动发现"
       ],
       "popularity": {
-        "github_stars": 1055,
-        "stars_delta": 1,
+        "github_stars": 1112,
+        "stars_delta": 57,
         "rank": null
       },
       "item_count": 1253,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T23:52:09Z",
+      "last_plugin_update": "2026-08-17T08:51:28Z",
       "last_check": "2026-08-16T23:34:41Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "AdamPlatin123/awesome-dsh-plugins",
-        "last_sync": "2026-08-17T00:25:07Z"
+        "last_sync": "2026-08-17T09:29:25Z"
       },
       "verification": {
         "level": "community_approved",
@@ -1439,19 +1439,19 @@
         "GitHub"
       ],
       "popularity": {
-        "github_stars": 90,
-        "stars_delta": 0,
+        "github_stars": 108,
+        "stars_delta": 18,
         "rank": null
       },
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T23:02:49Z",
+      "last_plugin_update": "2026-08-17T08:49:06Z",
       "last_check": "2026-08-17T08:15:50+08:00",
       "data_source": {
         "type": "github_repo",
         "identifier": "bradeGithub/DSH-Plugins-Marketplace",
-        "last_sync": "2026-08-17T00:25:08Z"
+        "last_sync": "2026-08-17T09:29:27Z"
       },
       "verification": {
         "level": "community_approved",
@@ -1509,19 +1509,19 @@
         "验证"
       ],
       "popularity": {
-        "github_stars": 52,
-        "stars_delta": 0,
+        "github_stars": 56,
+        "stars_delta": 4,
         "rank": null
       },
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T23:43:54Z",
+      "last_plugin_update": "2026-08-17T09:12:45Z",
       "last_check": "2026-08-16T23:35:57Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "ZASENJC/dsh-plugins-store",
-        "last_sync": "2026-08-17T00:25:09Z"
+        "last_sync": "2026-08-17T09:29:28Z"
       },
       "verification": {
         "level": "community_approved",
@@ -1577,19 +1577,19 @@
         "兼容测试"
       ],
       "popularity": {
-        "github_stars": 37,
-        "stars_delta": 0,
+        "github_stars": 38,
+        "stars_delta": 1,
         "rank": null
       },
       "item_count": 2,
-      "item_count_delta": -878,
+      "item_count_delta": 0,
       "status": "active",
-      "last_plugin_update": "2026-08-16T23:35:43Z",
+      "last_plugin_update": "2026-08-17T09:03:04Z",
       "last_check": "2026-08-17T08:16:57+08:00",
       "data_source": {
         "type": "github_repo",
         "identifier": "whyihaveyou/dsh-suite",
-        "last_sync": "2026-08-17T00:25:11Z"
+        "last_sync": "2026-08-17T09:29:30Z"
       },
       "verification": {
         "level": "community_approved",
@@ -1626,19 +1626,19 @@
         "双语"
       ],
       "popularity": {
-        "github_stars": 17,
-        "stars_delta": 0,
+        "github_stars": 20,
+        "stars_delta": 3,
         "rank": null
       },
       "item_count": 301,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T21:08:46Z",
+      "last_plugin_update": "2026-08-17T09:27:53Z",
       "last_check": "2026-08-17T08:17:01+08:00",
       "data_source": {
         "type": "github_repo",
         "identifier": "kejixiaoliang/awesome-dsh-plugins",
-        "last_sync": "2026-08-17T00:25:14Z"
+        "last_sync": "2026-08-17T09:29:34Z"
       },
       "verification": {
         "level": "community_approved",
@@ -1692,19 +1692,19 @@
         "目录"
       ],
       "popularity": {
-        "github_stars": 17,
-        "stars_delta": 0,
+        "github_stars": 19,
+        "stars_delta": 2,
         "rank": null
       },
       "item_count": 1820,
-      "item_count_delta": 771,
+      "item_count_delta": 0,
       "status": "active",
-      "last_plugin_update": "2026-08-16T14:21:31Z",
+      "last_plugin_update": "2026-08-17T09:06:08Z",
       "last_check": "2026-08-17T08:17:14+08:00",
       "data_source": {
         "type": "github_repo",
         "identifier": "Ericwong5021/deepseek-plugin-store",
-        "last_sync": "2026-08-17T00:25:16Z"
+        "last_sync": "2026-08-17T09:29:36Z"
       },
       "verification": {
         "level": "community_approved",
@@ -1744,19 +1744,19 @@
         "API"
       ],
       "popularity": {
-        "github_stars": 19,
-        "stars_delta": 0,
+        "github_stars": 45,
+        "stars_delta": 26,
         "rank": null
       },
       "item_count": 3926,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T20:56:46Z",
+      "last_plugin_update": "2026-08-17T07:38:53Z",
       "last_check": "2026-08-17T08:17:18+08:00",
       "data_source": {
         "type": "github_repo",
         "identifier": "imsai-sh/awesome-deepseek-harness-plugins",
-        "last_sync": "2026-08-17T00:25:19Z"
+        "last_sync": "2026-08-17T09:29:39Z"
       },
       "verification": {
         "level": "community_approved",
@@ -1823,7 +1823,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "vladimir-human/ru-marketplace-mcp",
-        "last_sync": "2026-08-17T00:25:22Z"
+        "last_sync": "2026-08-17T09:29:43Z"
       },
       "maintainer": "@vladimir-human",
       "first_added": "2026-08-16T23:19:06Z",
@@ -1877,18 +1877,18 @@
         "模板市场"
       ],
       "popularity": {
-        "github_stars": 61,
-        "stars_delta": 1,
+        "github_stars": 79,
+        "stars_delta": 18,
         "rank": null
       },
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T15:37:00Z",
+      "last_plugin_update": "2026-08-17T08:46:38Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "devin-axis/deepseek-design",
-        "last_sync": "2026-08-17T00:25:23Z"
+        "last_sync": "2026-08-17T09:29:44Z"
       },
       "maintainer": "@devin-axis",
       "first_added": "2026-08-16T23:19:06Z",
@@ -1953,7 +1953,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "harzva/harness-flow-hub",
-        "last_sync": "2026-08-17T00:25:24Z"
+        "last_sync": "2026-08-17T09:29:45Z"
       },
       "maintainer": "@harzva",
       "first_added": "2026-08-16T23:19:06Z",
@@ -2010,11 +2010,11 @@
       "item_count": 145,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T23:31:50Z",
+      "last_plugin_update": "2026-08-17T04:29:04Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "hacksing/dsh-plugins",
-        "last_sync": "2026-08-17T00:25:25Z"
+        "last_sync": "2026-08-17T09:29:46Z"
       },
       "maintainer": "@hacksing",
       "first_added": "2026-08-16T23:19:06Z",
@@ -2067,18 +2067,18 @@
         "discovery"
       ],
       "popularity": {
-        "github_stars": 1,
-        "stars_delta": 0,
+        "github_stars": 2,
+        "stars_delta": 1,
         "rank": null
       },
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T22:45:04Z",
+      "last_plugin_update": "2026-08-17T07:27:19Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "majiayu000/dsh-plugin-registry",
-        "last_sync": "2026-08-17T00:25:27Z"
+        "last_sync": "2026-08-17T09:29:48Z"
       },
       "maintainer": "@majiayu000",
       "first_added": "2026-08-16T23:19:06Z",
@@ -2131,13 +2131,13 @@
         "rank": null
       },
       "item_count": 2,
-      "item_count_delta": null,
+      "item_count_delta": 0,
       "status": "active",
-      "last_plugin_update": "2026-08-16T23:42:20Z",
+      "last_plugin_update": "2026-08-17T09:07:29Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "ywsldxk/dsh-plugin-stars",
-        "last_sync": "2026-08-17T00:25:28Z"
+        "last_sync": "2026-08-17T09:29:50Z"
       },
       "maintainer": "@ywsldxk",
       "first_added": "2026-08-16T23:19:06Z",
@@ -2178,11 +2178,11 @@
       "item_count": 9,
       "item_count_delta": 0,
       "status": "active",
-      "last_plugin_update": "2026-08-16T23:41:50Z",
+      "last_plugin_update": "2026-08-17T09:07:00Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "aust24lzy/dsh-plugin-hub",
-        "last_sync": "2026-08-17T00:25:30Z"
+        "last_sync": "2026-08-17T09:29:52Z"
       },
       "maintainer": "@aust24lzy",
       "first_added": "2026-08-16T23:19:06Z",
@@ -2224,11 +2224,11 @@
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T22:36:01Z",
+      "last_plugin_update": "2026-08-17T08:59:39Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "chnjames/dsh-plugin-market",
-        "last_sync": "2026-08-17T00:25:31Z"
+        "last_sync": "2026-08-17T09:29:54Z"
       },
       "maintainer": "@chnjames",
       "first_added": "2026-08-16T23:19:06Z",
@@ -2285,11 +2285,11 @@
       "item_count": 3518,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T22:21:43Z",
+      "last_plugin_update": "2026-08-17T08:37:39Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "nanmicoder/dsh-plugin-market",
-        "last_sync": "2026-08-17T00:25:33Z"
+        "last_sync": "2026-08-17T09:29:56Z"
       },
       "maintainer": "@nanmicoder",
       "first_added": "2026-08-16T23:19:06Z",
@@ -2355,7 +2355,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "tyeclipse/dsh-plugins-hub",
-        "last_sync": "2026-08-17T00:25:34Z"
+        "last_sync": "2026-08-17T09:29:57Z"
       },
       "maintainer": "@tyeclipse",
       "first_added": "2026-08-16T23:19:06Z",
@@ -2419,7 +2419,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "giiiiiithub/terminal",
-        "last_sync": "2026-08-17T00:25:35Z"
+        "last_sync": "2026-08-17T09:29:58Z"
       },
       "maintainer": "@giiiiiithub",
       "first_added": "2026-08-16T23:19:06Z",
@@ -2472,18 +2472,18 @@
         "教程"
       ],
       "popularity": {
-        "github_stars": 105,
-        "stars_delta": 1,
+        "github_stars": 129,
+        "stars_delta": 24,
         "rank": null
       },
       "item_count": 4,
-      "item_count_delta": null,
+      "item_count_delta": 0,
       "status": "active",
-      "last_plugin_update": "2026-08-16T15:48:21Z",
+      "last_plugin_update": "2026-08-17T06:08:00Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "hikariming/dshfind",
-        "last_sync": "2026-08-17T00:25:36Z"
+        "last_sync": "2026-08-17T09:29:59Z"
       },
       "maintainer": "@hikariming",
       "first_added": "2026-08-16T23:22:54Z",
@@ -2517,18 +2517,18 @@
         "资源列表"
       ],
       "popularity": {
-        "github_stars": 88,
-        "stars_delta": 0,
+        "github_stars": 107,
+        "stars_delta": 19,
         "rank": null
       },
-      "item_count": 91,
-      "item_count_delta": null,
+      "item_count": 97,
+      "item_count_delta": 6,
       "status": "active",
-      "last_plugin_update": "2026-08-16T09:11:43Z",
+      "last_plugin_update": "2026-08-17T03:51:08Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "libukai/awesome-deepseek-harness",
-        "last_sync": "2026-08-17T00:25:37Z"
+        "last_sync": "2026-08-17T09:30:01Z"
       },
       "maintainer": "@libukai",
       "first_added": "2026-08-16T23:22:54Z",
@@ -2558,8 +2558,8 @@
         "自动收录"
       ],
       "popularity": {
-        "github_stars": 16,
-        "stars_delta": 0,
+        "github_stars": 18,
+        "stars_delta": 2,
         "rank": null
       },
       "item_count": null,
@@ -2569,7 +2569,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "2bingling/dsh-market",
-        "last_sync": "2026-08-17T00:25:39Z"
+        "last_sync": "2026-08-17T09:30:03Z"
       },
       "maintainer": "@2bingling",
       "first_added": "2026-08-16T23:22:54Z",
@@ -2613,7 +2613,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "nanshan1995/dsh-plugin-market",
-        "last_sync": "2026-08-17T00:25:40Z"
+        "last_sync": "2026-08-17T09:30:04Z"
       },
       "maintainer": "@nanshan1995",
       "first_added": "2026-08-16T23:22:54Z",
@@ -2704,18 +2704,18 @@
         "DeepSeek Harness"
       ],
       "popularity": {
-        "github_stars": null,
+        "github_stars": 48,
         "stars_delta": null,
         "rank": null
       },
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T15:54:22Z",
+      "last_plugin_update": "2026-08-17T06:18:36Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "mars-sea/dsh-commandcode-provider",
-        "last_sync": "2026-08-17T08:11:15+08:00"
+        "last_sync": "2026-08-17T09:30:06Z"
       },
       "maintainer": "@mars-sea",
       "first_added": "2026-08-17T08:11:15+08:00",
@@ -2767,7 +2767,7 @@
       ],
       "popularity": {
         "github_stars": 0,
-        "stars_delta": null,
+        "stars_delta": 0,
         "rank": null
       },
       "item_count": null,
@@ -2777,7 +2777,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "johnxu22786/model-catalog",
-        "last_sync": "2026-08-17T00:26:13Z"
+        "last_sync": "2026-08-17T09:30:07Z"
       },
       "maintainer": "@johnxu22786",
       "first_added": "2026-08-17T08:11:15+08:00",
@@ -2830,17 +2830,17 @@
       ],
       "popularity": {
         "github_stars": 0,
-        "stars_delta": null,
+        "stars_delta": 0,
         "rank": null
       },
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T23:37:20Z",
+      "last_plugin_update": "2026-08-17T06:51:27Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "pericardiac-podzolsoil527/deepseek-plugin-store",
-        "last_sync": "2026-08-17T00:26:14Z"
+        "last_sync": "2026-08-17T09:30:08Z"
       },
       "maintainer": "@pericardiac-podzolsoil527",
       "first_added": "2026-08-17T08:11:15+08:00",
@@ -2892,18 +2892,18 @@
         "资金管理"
       ],
       "popularity": {
-        "github_stars": 3,
-        "stars_delta": null,
+        "github_stars": 4,
+        "stars_delta": 1,
         "rank": null
       },
       "item_count": 44,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T23:25:16Z",
+      "last_plugin_update": "2026-08-17T07:20:11Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "pengpengyi92/dsh-quant",
-        "last_sync": "2026-08-17T00:26:16Z"
+        "last_sync": "2026-08-17T09:30:15Z"
       },
       "maintainer": "@pengpengyi92",
       "first_added": "2026-08-17T08:11:15+08:00",
@@ -2954,17 +2954,17 @@
       ],
       "popularity": {
         "github_stars": 4,
-        "stars_delta": null,
+        "stars_delta": 0,
         "rank": null
       },
       "item_count": null,
       "item_count_delta": null,
       "status": "active",
-      "last_plugin_update": "2026-08-16T09:56:26Z",
+      "last_plugin_update": "2026-08-17T06:05:14Z",
       "data_source": {
         "type": "github_repo",
         "identifier": "kinoward/dsh-plugin-subhub",
-        "last_sync": "2026-08-17T00:26:17Z"
+        "last_sync": "2026-08-17T09:30:16Z"
       },
       "maintainer": "@kinoward",
       "first_added": "2026-08-17T08:11:15+08:00",
@@ -3015,7 +3015,7 @@
       ],
       "popularity": {
         "github_stars": 3,
-        "stars_delta": null,
+        "stars_delta": 0,
         "rank": null
       },
       "item_count": null,
@@ -3025,7 +3025,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "hellosky983/dsh-skillradar",
-        "last_sync": "2026-08-17T00:26:18Z"
+        "last_sync": "2026-08-17T09:30:17Z"
       },
       "maintainer": "@hellosky983",
       "first_added": "2026-08-17T08:11:15+08:00",
@@ -3075,8 +3075,8 @@
         "缓存"
       ],
       "popularity": {
-        "github_stars": 3,
-        "stars_delta": null,
+        "github_stars": 5,
+        "stars_delta": 2,
         "rank": null
       },
       "item_count": 196,
@@ -3086,7 +3086,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "zoahdev/dsh-github-intelligence",
-        "last_sync": "2026-08-17T00:26:19Z"
+        "last_sync": "2026-08-17T09:30:18Z"
       },
       "maintainer": "@zoahdev",
       "first_added": "2026-08-17T08:11:15+08:00",
@@ -3141,7 +3141,7 @@
       ],
       "popularity": {
         "github_stars": 1,
-        "stars_delta": null,
+        "stars_delta": 0,
         "rank": null
       },
       "item_count": null,
@@ -3151,7 +3151,7 @@
       "data_source": {
         "type": "github_repo",
         "identifier": "fectivnfy112357/github-explore",
-        "last_sync": "2026-08-17T00:26:29Z"
+        "last_sync": "2026-08-17T09:30:19Z"
       },
       "maintainer": "@fectivnfy112357",
       "first_added": "2026-08-17T08:11:15+08:00",
